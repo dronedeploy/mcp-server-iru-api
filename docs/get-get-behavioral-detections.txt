@@ -1,0 +1,61 @@
+GET
+Get Behavioral Detections
+https://{sub_domain}.api.kandji.io/api/v1/behavioral-detections
+Get Behavioral Detections.
+
+AUTHORIZATION
+Bearer Token
+This request is using Bearer Token from collectionKandji API
+PARAMS
+threat_id
+Filter by a specific threat ID (threat_id=Kandji_BD_0096).
+
+classification
+Filter by threat classification (classification=malicious).
+
+status
+Filter by threat status (threat_status=blocked)
+
+date_range
+Return all records within a specified number of days (Int)
+
+detection_date
+two query params detection_date_from and detection_date_to
+
+device_id
+Search for a specific device by the device id (uuid).
+
+malware_family
+Filter by malware family (malware_family=TrickBot).
+
+parent_process_name
+Filter by parent process (parent_process_name=bash).
+
+target_process_name
+Filter by target process (target_process_name=python).
+
+informational_tags
+Filter by tags (informational_tags=exploit,privilege_escalation).
+
+term
+Search term to filter threat results. Device name, file hash, image path
+
+sort_by
+status
+
+Detections can be sorted by any of the following keys. Prepending a dash (-) to the parameter value will reverse the order of the returned results. ?sort_by=-device_name will order the response by device_name in descending order.
+
+threat_id
+classification
+device_name
+parent_process_name
+target_process_name
+detection_date
+status
+limit
+1000
+
+A hard upper limit is set at 1000 records returned per request. If more records are expected, pagination should be used using the limit and offset parameters. Additionally, parameter queries can be added to a request to limit the results.
+
+offset
+Specify the starting record to return.

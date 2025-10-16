@@ -1,0 +1,63 @@
+GET
+Get Threat Details
+https://{sub_domain}.api.kandji.io/api/v1/threat-details
+Get threat details.
+
+AUTHORIZATION
+Bearer Token
+This request is using Bearer Token from collectionKandji API
+PARAMS
+classification
+malware
+
+Return all records matching a specified classification. The following classification options are available: malware and pup. Leave this parameter empty to return all classification types.
+
+date_range
+7
+
+Return all records within a specified number of days. Any positive number of days may be specified. Examples: 7, 30, 60, 90, 180, or 365.
+
+device_id
+15fcec08-xxxx-xxxx-xxxx-7c2f950910eb
+
+status
+quarantined
+
+Return all records matching a specified status. The following status options are available: quarantined, not_quarantined, or released. Leave this parameter empty to return all status types.
+
+sort_by
+status
+
+Results can be sorted with the following options:
+
+threat_name
+classification
+device_name
+process_name
+process_owner
+detection_date
+status
+Prepending a dash (-) to the parameter value will reverse the order of the returned results.
+
+?sort_by=-device_name will order the response by device_name in descending order.
+
+term
+Chrome
+
+Search term to filter threat results.
+
+The response will include anything matching the following fields: device_name, file_hash, and file_path.
+
+So if you search for bad file, the results will include anywhere bad file exists in the three fields above.
+
+limit
+1000
+
+A hard upper limit is set at 1000 records returned per request. If more records are expected, pagination should be used using the limit and offset parameters.
+
+Additionally, parameter queries can be added to a request to limit the results.
+
+offset
+1
+
+Specify the starting record to return

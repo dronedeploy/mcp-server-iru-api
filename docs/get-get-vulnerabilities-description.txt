@@ -1,0 +1,13 @@
+GET
+Get Vulnerability Description
+https://{sub_domain}.api.kandji.io/api/v1/vulnerability-management/vulnerabilities/:cve_id
+Retrieve information about a CVE.
+
+AUTHORIZATION
+Bearer Token
+This request is using Bearer Token from collectionKandji API
+PATH VARIABLES
+cve_id
+{cve_id}
+
+The CVE ID. Example "CVE-2024-12345"

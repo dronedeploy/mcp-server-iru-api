@@ -1,0 +1,48 @@
+GET
+List Vulnerabilities
+https://{sub_domain}.api.kandji.io/api/v1/vulnerability-management/vulnerabilities
+Retrieve a list of all vulnerabilities grouped by CVE.
+
+AUTHORIZATION
+Bearer Token
+This request is using Bearer Token from collectionKandji API
+PARAMS
+page
+The page number of the response.
+
+size
+50
+
+A hard upper limit is set at 50 records returned per request. If more records are expected, pagination should be used using the URL value returned in the next attribute. Additionally, filters can be added to a request to limit the results.
+
+sort_by
+cve_id
+
+Field to sort by.
+
+age
+
+cve_id
+
+cvss_score
+
+device_count
+
+known_exploit
+
+software (software name)
+
+severity
+
+status
+
+filter
+{"cve_id":{"in":["CVE-2024-24795"]}}
+
+Filter results. Similar to prism filters. Filterable columns
+
+cve_id
+software
+severity
+first_detection_date
+status

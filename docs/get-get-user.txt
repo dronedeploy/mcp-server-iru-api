@@ -1,0 +1,13 @@
+GET
+Get User
+https://{sub_domain}.api.kandji.io/api/v1/users/:user_id
+This endpoint makes a request to retrieve a specified user directory integration user by id.
+
+AUTHORIZATION
+Bearer Token
+This request is using Bearer Token from collectionKandji API
+PATH VARIABLES
+user_id
+{user_id}
+
+The unique identifier of the user directory integration user.

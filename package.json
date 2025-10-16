@@ -11,6 +11,13 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
+    "test:integration": "./run-all-tests.sh",
+    "test:all": "npx tsx test-all-tools.ts",
+    "test:users": "npx tsx test-users.ts",
+    "test:vulnerabilities": "npx tsx test-vulnerabilities.ts",
+    "test:threats": "npx tsx test-threats.ts",
+    "test:tags": "npx tsx test-tags.ts",
+    "test:licensing": "npx tsx test-licensing.ts",
     "lint": "eslint src --ext .ts",
     "format": "prettier --write \"src/**/*.ts\""
   },

@@ -1,0 +1,41 @@
+GET
+List Detections
+https://{sub_domain}.api.kandji.io/api/v1/vulnerability-management/detections
+Retrieve a list of all vulnerability detections across the device fleet.
+
+AUTHORIZATION
+Bearer Token
+This request is using Bearer Token from collectionKandji API
+PARAMS
+after
+Cursor token.
+
+size
+300
+
+A hard upper limit is set at 300 records returned per request. If more records are expected, pagination should be used using the URL value returned in the next attribute. Additionally, filters can be added to a request to limit the results.
+
+filter
+{"cve_id":{"in":["CVE-2024-24795"]}}
+
+Filter on any key attribute within the response.
+
+device_id
+device_name
+device_serial_number
+device_model
+device_os_version
+blueprint_id
+blueprint_name
+name
+path
+version
+bundle_id
+cve_id
+cve_description
+cve_link
+cvss_score
+cvss_severity
+detection_datetime
+cve_published_at
+cve_modified_at

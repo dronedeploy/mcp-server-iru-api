@@ -1,0 +1,8 @@
+GET
+Licensing
+https://{sub_domain}.api.kandji.io/api/v1/settings/licensing
+Returns Kandji tenant licensing and utilization information.
+
+AUTHORIZATION
+Bearer Token
+This request is using Bearer Token from collectionKandji API

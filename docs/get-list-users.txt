@@ -1,0 +1,33 @@
+GET
+List Users
+https://{sub_domain}.api.kandji.io/api/v1/users
+This endpoint makes a request to retrieve a list of users from user directory integrations.
+
+A maximum of 300 records are returned per request, and pagination can be performed leveraging the URLs provided in the next and previous keys in the response. If there are no more results available, the respective key will be null.
+
+AUTHORIZATION
+Bearer Token
+This request is using Bearer Token from collectionKandji API
+PARAMS
+email
+test_user_01@accuhive.io
+
+Returns users with email addresses containing the provided string.
+
+id
+69c009ca-1f78-4bdf-bb93-08d6d39041db
+
+Search for a user matching the provided UUID value.
+
+integration_id
+f7461096-4ef9-43aa-88e9-ca1967ba0b38
+
+Search for a integration matching the provided UUID value.
+
+archived
+false
+
+Return only users that are either archived (true) or not archived (false). Archived users are users that appear in the Kandji Users module under the Archived tab.
+
+cursor
+Cursor for the next or previous page of results. Can also store the URL in the next and previous fields in the response.

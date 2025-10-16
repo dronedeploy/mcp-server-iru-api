@@ -1,0 +1,36 @@
+GET
+List Affected Devices
+https://{sub_domain}.api.kandji.io/api/v1/vulnerability-management/vulnerabilities/:cve_id/devices
+Retrieve a list of devices impacted by a specified cve_id vulnerability for a tenants fleet.
+
+AUTHORIZATION
+Bearer Token
+This request is using Bearer Token from collectionKandji API
+PARAMS
+page
+The page number of the response.
+
+size
+50
+
+A hard upper limit is set at 50 records returned per request. If more records are expected, pagination should be used using the URL value returned in the next attribute. Additionally, filters can be added to a request to limit the results.
+
+sort_by
+software_name
+
+Field to sort by.
+
+name (device name)
+detection_datetime
+filter
+{"detection_datetime":{"gte":"2025-05-23T17:11:31.816587Z"}}
+
+Filterable columns:
+
+name
+detection_datetime
+PATH VARIABLES
+cve_id
+{cve_id}
+
+The CVE ID. Example "CVE-2024-12345"

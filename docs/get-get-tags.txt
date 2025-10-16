@@ -1,0 +1,13 @@
+GET
+Get Tags
+https://{sub_domain}.api.kandji.io/api/v1/tags?search=accuhive
+Return configured tags.
+
+AUTHORIZATION
+Bearer Token
+This request is using Bearer Token from collectionKandji API
+PARAMS
+search
+accuhive
+
+Return resultes containing a given tag search string.
