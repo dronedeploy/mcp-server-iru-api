@@ -344,21 +344,39 @@ Scripts are fully editable bash scripts. You can:
 
 ## Security Notes
 
-⚠️ **Scripts contain your API token**. Handle them securely:
+Generated scripts are designed for **personal, local use** as part of your Claude Desktop MCP deployment. The scripts include your API token to simplify execution.
 
-- Don't commit scripts to version control
-- Don't share scripts with others
-- Delete scripts after use if they contain sensitive tokens
-- Use environment variables for tokens in production
+### Understanding Script Security
 
-Better approach for production:
+**Context:** These scripts are generated for you, by you, on your own machine. They contain your own credentials for your own use.
+
+**Best Practices:**
+
+1. **Version Control:** Avoid committing scripts to public repositories, as they contain your personal API token
+2. **Sharing:** If sharing scripts with teammates, use the environment variable approach below to avoid embedding tokens
+3. **File Permissions:** Scripts are saved with your default file permissions (typically user-readable only on macOS/Linux)
+4. **Cleanup:** Delete old scripts if you no longer need them, especially if you've rotated your API token
+
+### Alternative: Environment Variable Approach
+
+For reusable scripts or team sharing, you can modify generated scripts to reference environment variables instead of embedding the token:
+
 ```bash
-# Edit script to use environment variable
+# Original (embedded token):
+API_TOKEN="your_actual_token_here"
+
+# Modified (environment variable reference):
 API_TOKEN="${KANDJI_API_TOKEN}"
 
-# Run with token from environment
+# Then run with:
 KANDJI_API_TOKEN="your_token" ./export_script.sh
 ```
+
+This approach is useful when:
+- Sharing scripts with teammates (they use their own tokens)
+- Running scripts in automation/CI environments
+- Following organizational security policies
+- Managing multiple Kandji tenants
 
 ## API Endpoints with Script Generation
 

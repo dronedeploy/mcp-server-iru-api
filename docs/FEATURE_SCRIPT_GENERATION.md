@@ -218,19 +218,68 @@ Scripts are pre-configured with:
 
 ## Security Considerations
 
-### Current Implementation
-- Scripts contain API tokens in plaintext
-- Generated scripts should not be committed to git
-- Scripts should be deleted after use
+### Design Context
 
-### Best Practices
-Users should:
-1. Delete scripts after running them
-2. Add `*.sh` to `.gitignore` if saving scripts
-3. Consider editing scripts to use environment variables:
-   ```bash
-   API_TOKEN="${KANDJI_API_TOKEN}"  # Instead of hardcoded
-   ```
+This feature is designed for **local MCP deployment** where:
+- The user operates the MCP server on their own machine
+- Scripts are generated for the user's personal use
+- The user owns and controls their API credentials
+- There is no multi-user or multi-tenant scenario
+
+In this context, generated scripts containing API tokens are analogous to the user writing their own shell scripts with their own credentials.
+
+### Implementation Details
+
+**Current Approach:**
+- Scripts embed API tokens directly for ease of use
+- Simplifies execution workflow (no additional configuration needed)
+- User receives ready-to-run scripts in MCP responses
+
+**Security Properties:**
+- Scripts are generated on-demand, not stored server-side
+- Tokens come from the user's own environment variables
+- Scripts execute in the user's own security context
+- No credential exposure to third parties during generation
+
+### Best Practices for Users
+
+While the design is secure for local use, users should follow standard credential hygiene:
+
+1. **Version Control:** Avoid committing scripts to public repositories
+   - Add `*.sh` or specific script names to `.gitignore`
+   - Review files before committing to ensure no credentials are included
+
+2. **Sharing:** If sharing scripts with teammates:
+   - Edit scripts to use environment variable references instead of embedded tokens
+   - Replace `API_TOKEN="actual_token"` with `API_TOKEN="${KANDJI_API_TOKEN}"`
+   - Recipients use their own credentials when running the script
+
+3. **Cleanup:** Delete old scripts when:
+   - You've rotated your API token
+   - The script is no longer needed
+   - You're decommissioning a system
+
+4. **File Permissions:** Scripts inherit your default file creation permissions
+   - On Unix-like systems, typically user-readable only (umask 077 or 022)
+   - No additional permission hardening required for personal use
+
+### Alternative Patterns
+
+For team environments or automation scenarios, users can modify generated scripts:
+
+```bash
+# Generated (for personal use):
+API_TOKEN="your_actual_token_here"
+
+# Modified (for team/automation):
+API_TOKEN="${KANDJI_API_TOKEN}"
+```
+
+This allows:
+- Script sharing without credential exposure
+- Different team members using their own tokens
+- Integration with secret management systems
+- Compliance with organizational policies
 
 ## Performance
 
