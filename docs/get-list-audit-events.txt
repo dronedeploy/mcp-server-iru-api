@@ -1,0 +1,49 @@
+GET
+List audit events
+https://{sub_domain}.api.kandji.io/api/v1/audit/events?limit=500&sort_by=-occurred_at
+List audit log events from the Kandji Activity module.
+
+Returns events related to
+
+Blueprint and Library Item creation, updates, and deletions (Create, Update, Delete)
+
+Access to sensitive data (such as FileVault keys and recovery keys)
+
+Device lifecycle events (enrollment, deletion, MDM removal, blueprint changes)
+
+User directory events (including directory user deletions)
+
+Administrative actions (tenant owner updates, API token management (Create, Update, Delete))
+
+Admin user management activities
+
+Vulnerability management events for detections and remediations (for customers with this feature)
+
+Endpoint Detection and Response events for detections, remediations, and admin actions (for customers with this feature)
+
+AUTHORIZATION
+Bearer Token
+This request is using Bearer Token from collectionKandji API
+PARAMS
+limit
+500
+
+A max upper limit is set at 500 records returned per request. Pagination should be used using the cursor in the next key to request more results. Additionally, parameter queries can be added to a request to filter the results.
+
+sort_by
+-occurred_at
+
+Sort results by occurred_at, id either ascending (default behavior) or descending(-) order.
+
+start_date
+2024-11-26T22:58:26.239570Z
+
+Filter by start date in datetime or year-month-day (2024-11-26) formats
+
+end_date
+2024-12-06T17:48:41.784439Z
+
+Filter by start date in datetime or year-month-day (2024-12-06) formats
+
+cursor
+You can pass the next cursor as a parameter or use the URL in the next key to get the next page of results or to start from where you left off last.

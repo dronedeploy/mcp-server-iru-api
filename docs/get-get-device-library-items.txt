@@ -1,0 +1,24 @@
+GET
+Get Device Library Items
+https://{sub_domain}.api.kandji.io/api/v1/devices/{device_id}/library-items
+This request gets all library items and their statuses for a specified Device ID
+
+Possible library item status values
+View More
+Value	Type	Additional Info
+AVAILABLE	string	Library item available in Self Service
+CACHED	string	Library item downloaded for install but not yet installed
+CHANGE_PENDING	string	Recovery Password library item has changes that have not yet been applied
+DOWNLOADING	string	Library item downloading
+ERROR	string	Audit failure
+EXCLUDED	string	Not in scope for assignment rule
+INCOMPATIBLE	string	Not compatible with device or OS version
+INSTALLING	string	Library item installing
+PASS	string	Device meets requirements
+PENDING	string	Waiting on device, not yet installed (All library items except for config profiles)
+failed	string	Configuration profile failed to install
+pending	string	Waiting on device, Configuration profile not yet installed
+success	string	Configuration profile installed
+AUTHORIZATION
+Bearer Token
+This request is using Bearer Token from collectionKandji API

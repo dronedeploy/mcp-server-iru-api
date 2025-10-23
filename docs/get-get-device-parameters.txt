@@ -1,0 +1,21 @@
+GET
+Get Device Parameters
+https://{sub_domain}.api.kandji.io/api/v1/devices/{device_id}/parameters
+This request returns the parameters and their statuses for a specified Device ID
+
+This endpoint is only applicable to macOS clients.
+
+The parameters will be returned as a list of IDs. These IDs can be correlated with the parameter names available here: https://github.com/kandji-inc/support/wiki/Devices-API---Parameter-Correlations
+
+Possible parameter status values
+
+Value	Type	Additional Info
+ERROR	string	Audit failure
+INCOMPATIBLE	string	Not compatible with device or OS version
+PASS	string	Device meets requirements
+PENDING	string	Waiting on device. Not yet run.
+REMEDIATED	string	Parameter remediated
+WARNING	string	Muted alert
+AUTHORIZATION
+Bearer Token
+This request is using Bearer Token from collectionKandji API

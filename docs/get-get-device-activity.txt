@@ -1,0 +1,18 @@
+GET
+Get Device Activity
+https://{sub_domain}.api.kandji.io/api/v1/devices/{device_id}/activity?limit=300
+This request returns the device activity for a specified Device ID.
+
+AUTHORIZATION
+Bearer Token
+This request is using Bearer Token from collectionKandji API
+PARAMS
+limit
+300
+
+A hard upper limit is set at 300 device records returned per request. If more device records are expected, pagination should be used using the limit and offset parameters. Additionally, parameter queries can be added to a request to limit the results.
+
+offset
+0
+
+Specify the starting record to return

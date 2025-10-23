@@ -272,11 +272,8 @@ server.addTool({
 });
 
 // Start the server
-console.log('Kandji MCP Server starting...');
-console.log(`Region: ${process.env.KANDJI_REGION || 'us'}`);
-console.log(`PII Redaction: ${process.env.ENABLE_PII_REDACTION === 'true' ? 'Enabled' : 'Disabled'}`);
-console.log('Ready to accept requests from Claude Desktop');
-
+// Note: console.log is disabled to avoid interfering with MCP stdio protocol
+// Use console.error for debugging if needed (it writes to stderr)
 server.start({
   transportType: 'stdio',
 });

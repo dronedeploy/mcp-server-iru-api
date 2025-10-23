@@ -1,0 +1,10 @@
+GET
+Get Device Apps
+https://{sub_domain}.api.kandji.io/api/v1/devices/{device_id}/apps
+This request returns a list of all installed apps for a specified Device ID.
+
+For iPhone and iPad, the preinstalled Apple apps are not reported.
+
+AUTHORIZATION
+Bearer Token
+This request is using Bearer Token from collectionKandji API

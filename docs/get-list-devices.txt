@@ -1,0 +1,131 @@
+GET
+List Devices
+https://{sub_domain}.api.kandji.io/api/v1/devices?limit=300
+This request returns a list of devices in a Kandji tenant. Optionally. query parameters can be used to filter results.
+
+There is a hard upper limit of 300 results per request. To return addtional results pagination must be used. Pagination examples can be found in the Kandji support GitHub.
+
+AUTHORIZATION
+Bearer Token
+This request is using Bearer Token from collectionKandji API
+PARAMS
+asset_tag
+23245
+
+blueprint_id
+91f97957-2353-4f86-a1ab-64d2b044a596
+
+Return results "containing" the specified blueprint id
+
+device_id
+2cfeb3ac-3b5d-423e-bcff-e2676a3a32da
+
+device_name
+Johnny's MacBook Pro
+
+filevault_enabled
+true
+
+Query for devices that either have FileVault on (true) or off (false). This parameter only applies to macOS.
+
+An empty list [] will be returned if no devices are found with the given parameter value.
+
+mac_address
+00:0c:29:05:43:b6
+
+Search for a specific device by MAC address
+
+model
+MacBook Air (M1, 2020)
+
+Return model results "containing" the specified model string.
+
+ordering
+device_id
+
+The ordering parameter can be used to define how the device records are ordered in the response. Prepending a dash (-) to the parameter value will reverse the order of the returned results.
+
+?ordering=-serial_number will order the response by serial_number in descending order.
+
+Possible values
+
+asset_tag
+blueprint_id
+device_id
+device_name
+last_check_in - agent checkin
+model
+platform
+os_version
+serial_number
+user
+Additionally, multiple values can be combined in a comma separated list to further customize the ordering of the response.
+
+?ordering=serial_number,platform
+
+os_version
+13.2.3
+
+Return all device records containing the specified OS version
+
+platform
+iPad
+
+Return all records matching a specific platform. Possible values:Mac, iPad, iPhone, AppleTV
+
+serial_number
+VMC5qeJ5pDkp
+
+Search for a specific device by Serial Number. If partial serial number is provided in the query, all device containing the partial string will be returned.
+
+tag_name
+accuhive_01
+
+Return results for given tag name. Case sensitive.
+
+tag_name_in
+accuhive_01, accuhive_02
+
+Return results for given tag names separate by commas. Case sensitive.
+
+tag_id
+Search for a tag by its ID. Case sensitive.
+
+tag_id_in
+Return results for given tag IDs separated by commas. Case sensitive.
+
+user
+Art Vandelay
+
+Return results "containing" the user name
+
+user_email
+someUser@Kandji.io
+
+Return results "containing" search on email address
+
+user_email_exact
+someUser@Kandji.io
+
+Return results "matching" the specified email address
+
+user_id
+5344c996-8823-4b37-8d6e-8515fc7c3a0a
+
+"exact" match on kandji user ID (example: 5344c996-8823-4b37-8d6e-8515fc7c3a0a)
+
+user_name
+Vandelay
+
+Return results "containing" the assigned user Display Name
+
+limit
+300
+
+A hard upper limit is set at 300 device records returned per request. If more device records are expected, pagination should be used using the limit and offset parameters. Additionally, parameter queries can be added to a request to limit the results.
+
+offset
+0
+
+Specify the starting record to return
+

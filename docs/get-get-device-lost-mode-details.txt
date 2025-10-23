@@ -1,0 +1,10 @@
+GET
+Get Device Lost Mode details
+https://{sub_domain}.api.kandji.io/api/v1/devices/{device_id}/details/lostmode
+This request returns the device lost mode details for a specified Device ID.
+
+Note: Lost Mode is is only available for iOS and iPadOS. For more information, please see this Kandji support artilcle.
+
+AUTHORIZATION
+Bearer Token
+This request is using Bearer Token from collectionKandji API

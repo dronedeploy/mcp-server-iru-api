@@ -1,0 +1,33 @@
+GET
+Get Device Status
+https://{sub_domain}.api.kandji.io/api/v1/devices/{device_id}/status
+This request returns the full status (parameters and library items) for a specified Device ID.
+
+The parameters will be returned as a list of IDs. These IDs can be correlated with the parameter names available here: https://github.com/kandji-inc/support/wiki/Devices-API---Parameter-Correlations
+
+Possible status values
+Library items
+
+View More
+Value	Type	Additional Info
+AVAILABLE	string	Library item available in Self Service
+ERROR	string	Audit failure
+EXCLUDED	string	Not in scope for assignment rule
+INCOMPATIBLE	string	Not compatible with device or OS version
+PASS	string	Device meets requirements
+PENDING	string	Waiting on device, not yet installed (All library items except for config profiles)
+failed	string	Configuration profile failed to install
+pending	string	Waiting on device, Configuration profile not yet installed
+success	string	Configuration profile installed
+Parameters
+
+Value	Type	Additional Info
+ERROR	string	Audit failure
+INCOMPATIBLE	string	Not compatible with device or OS version
+PASS	string	Device meets requirements
+PENDING	string	Waiting on device. Not yet run.
+REMEDIATED	string	Parameter remediated
+WARNING	string	Muted alert
+AUTHORIZATION
+Bearer Token
+This request is using Bearer Token from collectionKandji API

@@ -1,0 +1,8 @@
+GET
+Get Device
+https://{sub_domain}.api.kandji.io/api/v1/devices/{device_id}
+This request returns the high-level information for a specified Device ID.
+
+AUTHORIZATION
+Bearer Token
+This request is using Bearer Token from collectionKandji API
