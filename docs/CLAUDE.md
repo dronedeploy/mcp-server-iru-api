@@ -15,7 +15,7 @@ The project integrates with Kandji's REST API to expose MCP tools for device que
 - **FastMCP Integration**: Built on TypeScript-based FastMCP framework for MCP server implementation
 - **Kandji Client**: HTTP client wrapper (`utils/client.ts`) for Kandji API interactions with authentication
 - **Tools**: MCP tool definitions in `src/tools/` - each tool wraps a Kandji API capability
-- **Resources**: JSON schemas in `src/resources/` defining Kandji data models
+- **Types**: TypeScript type definitions in `utils/types.ts` for API models
 - **Caching Layer**: TTL-based cache (`utils/cache.ts`) for device (5min), compliance (2min), and blueprint (30min) data
 
 ### Response Envelope Standard
@@ -64,12 +64,17 @@ fastmcp serve
 
 ### Testing
 ```bash
-npm test                # Run all tests
+npm test                # Run unit tests (61 tests)
 npm run test:watch      # Watch mode
-npm run test:coverage   # Coverage report (target: 100%)
+npm run test:coverage   # Coverage report
+npm run test:all        # Run integration tests
 ```
 
-Target: 100% coverage for validation, cache, and error handling.
+**Current Test Status:**
+- 61 unit tests passing
+- 32% overall coverage (utils at 80%+)
+- Coverage targets: 80% lines, branches, functions
+- 3 test suites: cache.test.ts, client.test.ts, tools.test.ts
 
 ### Configuration
 
@@ -111,20 +116,51 @@ export const toolName = defineTool({
 ## Security Requirements
 
 - **PII Redaction**: Session-based toggle for masking user emails, names in responses
-- **Audit Logging**: JSON-structured logs with tool name, sanitized parameters, duration, result size
+- **Device Erase Logging**: Erase actions logged to stdout for accountability
 - **Read-Only Default**: Destructive operations (`execute_device_action`) require explicit `confirm: true` parameter
 - **No Emoji**: Never use emoji in logs or console output
-- **Compliance**: Align with ISO 27001, SOC 2 T2, GDPR
+- **Security Best Practices**: Secure credential storage (.env gitignored), Zod input validation, HTTPS-only API calls
 
-## MCP Tools to Implement
+## Implemented MCP Tools
 
-| Tool | Purpose | Parameters |
-|------|---------|------------|
-| `search_devices_by_criteria` | Filter devices by name/OS/compliance | name, os, compliance_status |
-| `get_device_details` | Retrieve device details by ID | id (UUID) |
-| `get_compliance_summary` | Org-wide compliance report | (none) |
-| `list_blueprints` | List blueprints and profiles | (none) |
-| `execute_device_action` | Lock/restart/wipe (confirmation required) | id, action, confirm |
+The server provides **23 fully implemented MCP tools** across these categories:
+
+### Device Management (9 tools)
+- `search_devices_by_criteria` - Filter devices by criteria
+- `get_device_details` - Device hardware/software details
+- `get_device_activity` - Activity history with pagination
+- `get_device_apps` - Installed applications list
+- `get_device_library_items` - Library items and statuses
+- `get_device_parameters` - Parameters for macOS devices
+- `get_device_status` - Comprehensive status view
+- `get_device_lost_mode_details` - Lost mode for iOS/iPadOS
+- `execute_device_action` - Device actions (lock, restart, erase)
+
+### Compliance & Reporting (2 tools)
+- `get_compliance_summary` - Org-wide compliance metrics
+- `list_audit_events` - Audit log events with filtering
+
+### Configuration (2 tools)
+- `list_blueprints` - Device blueprints
+- `get_tags` - Tag management
+
+### User Management (2 tools)
+- `list_users` - Directory integration users
+- `get_user` - Specific user details
+
+### Security & Vulnerabilities (6 tools)
+- `list_vulnerabilities` - CVE vulnerability list
+- `get_vulnerability_details` - Specific CVE details
+- `list_vulnerability_detections` - Fleet-wide detections
+- `list_affected_devices` - Devices by CVE
+- `list_affected_software` - Software by CVE
+- `list_behavioral_detections` - Threat detections
+
+### Threat Management (2 tools)
+- `get_threat_details` - Detailed threat info
+- `get_licensing` - License utilization
+
+All tools follow the standardized pattern with response envelopes, caching, and error handling.
 
 ## Performance Targets
 
@@ -148,11 +184,24 @@ Implement exponential backoff for rate limiting (Kandji API has rate limits).
 
 ## Testing Strategy
 
-Use Jest + Supertest with mocked Kandji API responses for:
-1. Response envelope validation
-2. Error handling for each category
-3. Cache behavior and TTL expiry
-4. Parameter validation (Zod schemas)
-5. PII redaction toggle
+Tests are organized in `test/` directory:
 
-Mock server responses to enable offline testing.
+### Unit Tests (`test/unit/`)
+- **cache.test.ts**: TTL expiration, pattern invalidation, cleanup
+- **client.test.ts**: Error categorization, PII redaction, API calls
+- **tools.test.ts**: Response envelopes, validation, caching
+
+### Integration Tests (`test/integration/`)
+- Live API tests for specific tools
+- Requires valid `.env` configuration
+- Run with `npm run test:all`
+
+### Test Coverage
+Run `npm run test:coverage` to generate HTML coverage reports in `coverage/` directory.
+
+Focus areas:
+1. Response envelope validation (all fields present)
+2. Error handling for each category (auth, validation, rate_limit, network, server)
+3. Cache behavior and TTL expiry
+4. Parameter validation with Zod schemas
+5. PII redaction toggle functionality

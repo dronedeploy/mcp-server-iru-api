@@ -1,0 +1,19 @@
+{
+  "mcpServers": {
+    "kandji": {
+      "command": "node",
+      "args": [
+        "/ABSOLUTE/PATH/TO/mcp-server-kandji-api/dist/index.js"
+      ],
+      "env": {
+        "KANDJI_API_TOKEN": "your_api_token_here",
+        "KANDJI_SUBDOMAIN": "your_subdomain_here",
+        "KANDJI_REGION": "us",
+        "ENABLE_PII_REDACTION": "false",
+        "CACHE_TTL_DEVICES": "300",
+        "CACHE_TTL_COMPLIANCE": "120",
+        "CACHE_TTL_BLUEPRINTS": "1800"
+      }
+    }
+  }
+}

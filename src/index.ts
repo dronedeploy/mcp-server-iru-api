@@ -24,6 +24,13 @@ import { listAffectedDevices } from './tools/list_affected_devices.js';
 import { listAffectedSoftware } from './tools/list_affected_software.js';
 import { listBehavioralDetections } from './tools/list_behavioral_detections.js';
 import { getThreatDetails } from './tools/get_threat_details.js';
+import { getDeviceActivity } from './tools/get_device_activity.js';
+import { getDeviceApps } from './tools/get_device_apps.js';
+import { getDeviceLibraryItems } from './tools/get_device_library_items.js';
+import { getDeviceLostModeDetails } from './tools/get_device_lost_mode_details.js';
+import { getDeviceParameters } from './tools/get_device_parameters.js';
+import { getDeviceStatus } from './tools/get_device_status.js';
+import { listAuditEvents } from './tools/list_audit_events.js';
 
 // Load environment variables
 dotenv.config();
@@ -267,6 +274,96 @@ server.addTool({
   }),
   execute: async (params) => {
     const result = await getThreatDetails(kandjiClient, params);
+    return JSON.stringify(result, null, 2);
+  },
+});
+
+server.addTool({
+  name: 'get_device_activity',
+  description: 'Retrieve device activity history for a specific device. Returns recent events and actions performed on the device.',
+  parameters: z.object({
+    device_id: z.string().uuid().describe('Device UUID'),
+    limit: z.number().optional().describe('Maximum number of activity records to return (max 300)'),
+    offset: z.number().optional().describe('Starting record to return for pagination'),
+  }),
+  execute: async (params) => {
+    const result = await getDeviceActivity(kandjiClient, params);
+    return JSON.stringify(result, null, 2);
+  },
+});
+
+server.addTool({
+  name: 'get_device_apps',
+  description: 'Retrieve installed apps for a specific device. For iPhone and iPad, preinstalled Apple apps are not reported.',
+  parameters: z.object({
+    device_id: z.string().uuid().describe('Device UUID'),
+  }),
+  execute: async (params) => {
+    const result = await getDeviceApps(kandjiClient, params);
+    return JSON.stringify(result, null, 2);
+  },
+});
+
+server.addTool({
+  name: 'get_device_library_items',
+  description: 'Retrieve library items and their statuses for a specific device. Shows configuration profiles, apps, and scripts with their installation status.',
+  parameters: z.object({
+    device_id: z.string().uuid().describe('Device UUID'),
+  }),
+  execute: async (params) => {
+    const result = await getDeviceLibraryItems(kandjiClient, params);
+    return JSON.stringify(result, null, 2);
+  },
+});
+
+server.addTool({
+  name: 'get_device_lost_mode_details',
+  description: 'Retrieve lost mode details for a specific iOS/iPadOS device. Lost Mode is only available for iOS and iPadOS.',
+  parameters: z.object({
+    device_id: z.string().uuid().describe('Device UUID'),
+  }),
+  execute: async (params) => {
+    const result = await getDeviceLostModeDetails(kandjiClient, params);
+    return JSON.stringify(result, null, 2);
+  },
+});
+
+server.addTool({
+  name: 'get_device_parameters',
+  description: 'Retrieve parameters and their statuses for a specific macOS device. This endpoint is only applicable to macOS clients. Parameter IDs can be correlated at https://github.com/kandji-inc/support/wiki/Devices-API---Parameter-Correlations',
+  parameters: z.object({
+    device_id: z.string().uuid().describe('Device UUID'),
+  }),
+  execute: async (params) => {
+    const result = await getDeviceParameters(kandjiClient, params);
+    return JSON.stringify(result, null, 2);
+  },
+});
+
+server.addTool({
+  name: 'get_device_status',
+  description: 'Retrieve full status (parameters and library items) for a specific device. Provides comprehensive view of device compliance and configuration.',
+  parameters: z.object({
+    device_id: z.string().uuid().describe('Device UUID'),
+  }),
+  execute: async (params) => {
+    const result = await getDeviceStatus(kandjiClient, params);
+    return JSON.stringify(result, null, 2);
+  },
+});
+
+server.addTool({
+  name: 'list_audit_events',
+  description: 'List audit log events from the Kandji Activity module. Returns events for blueprint changes, device lifecycle, admin actions, vulnerability management, and more.',
+  parameters: z.object({
+    limit: z.number().optional().describe('Maximum number of events to return (max 500)'),
+    sort_by: z.string().optional().describe('Sort results by field (e.g., -occurred_at for descending)'),
+    start_date: z.string().optional().describe('Filter by start date (YYYY-MM-DD or datetime format)'),
+    end_date: z.string().optional().describe('Filter by end date (YYYY-MM-DD or datetime format)'),
+    cursor: z.string().optional().describe('Cursor for pagination'),
+  }),
+  execute: async (params) => {
+    const result = await listAuditEvents(kandjiClient, params);
     return JSON.stringify(result, null, 2);
   },
 });

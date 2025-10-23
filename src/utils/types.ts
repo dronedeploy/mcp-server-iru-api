@@ -21,6 +21,7 @@ export interface MCPResponse<T = unknown> {
   };
   suggestions?: string[];
   errors?: ErrorDetail[];
+  script?: string;  // Optional bash script for large data exports
 }
 
 // Error handling
@@ -286,4 +287,59 @@ export interface ThreatDetail {
   file_hash?: string;
   file_path?: string;
   [key: string]: any;
+}
+
+// Device library item types
+export interface DeviceLibraryItem {
+  id: string;
+  name: string;
+  type?: string;
+  status: string;
+  last_install?: string;
+  [key: string]: any;
+}
+
+// Device lost mode types
+export interface DeviceLostModeDetails {
+  enabled: boolean;
+  message?: string;
+  phone_number?: string;
+  footnote?: string;
+  supervised_only?: boolean;
+  [key: string]: any;
+}
+
+// Device parameter types
+export interface DeviceParameter {
+  id: string;
+  parameter_id?: string;
+  status: string;
+  last_check?: string;
+  [key: string]: any;
+}
+
+// Device status types
+export interface DeviceStatus {
+  library_items?: DeviceLibraryItem[];
+  parameters?: DeviceParameter[];
+  [key: string]: any;
+}
+
+// Audit event types
+export interface AuditEvent {
+  id: string;
+  occurred_at: string;
+  event_type: string;
+  user?: string;
+  user_email?: string;
+  description?: string;
+  target?: string;
+  ip_address?: string;
+  [key: string]: any;
+}
+
+export interface AuditEventListResponse {
+  results: AuditEvent[];
+  next?: string | null;
+  count?: number;
 }

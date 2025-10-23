@@ -21,6 +21,11 @@ import {
   VulnerabilityDetectionListResponse,
   BehavioralDetection,
   ThreatDetail,
+  DeviceLibraryItem,
+  DeviceLostModeDetails,
+  DeviceParameter,
+  DeviceStatus,
+  AuditEventListResponse,
 } from './types.js';
 
 export class KandjiClient {
@@ -167,8 +172,44 @@ export class KandjiClient {
   /**
    * Get device activity
    */
-  async getDeviceActivity(deviceId: string): Promise<KandjiActivity[]> {
-    return this.request<KandjiActivity[]>(`/devices/${deviceId}/activity`);
+  async getDeviceActivity(deviceId: string, params?: {
+    limit?: number;
+    offset?: number;
+  }): Promise<KandjiActivity[]> {
+    const queryParams = new URLSearchParams();
+    if (params?.limit) queryParams.set('limit', params.limit.toString());
+    if (params?.offset) queryParams.set('offset', params.offset.toString());
+
+    const endpoint = `/devices/${deviceId}/activity${queryParams.toString() ? `?${queryParams.toString()}` : ''}`;
+    return this.request<KandjiActivity[]>(endpoint);
+  }
+
+  /**
+   * Get device library items
+   */
+  async getDeviceLibraryItems(deviceId: string): Promise<DeviceLibraryItem[]> {
+    return this.request<DeviceLibraryItem[]>(`/devices/${deviceId}/library-items`);
+  }
+
+  /**
+   * Get device lost mode details
+   */
+  async getDeviceLostModeDetails(deviceId: string): Promise<DeviceLostModeDetails> {
+    return this.request<DeviceLostModeDetails>(`/devices/${deviceId}/details/lostmode`);
+  }
+
+  /**
+   * Get device parameters
+   */
+  async getDeviceParameters(deviceId: string): Promise<DeviceParameter[]> {
+    return this.request<DeviceParameter[]>(`/devices/${deviceId}/parameters`);
+  }
+
+  /**
+   * Get device status
+   */
+  async getDeviceStatus(deviceId: string): Promise<DeviceStatus> {
+    return this.request<DeviceStatus>(`/devices/${deviceId}/status`);
   }
 
   /**
@@ -247,6 +288,16 @@ export class KandjiClient {
 
   /**
    * Get FileVault recovery key for a device
+   *
+   * ⚠️ SECURITY WARNING: This method is intentionally NOT exposed as an MCP tool.
+   * FileVault keys are disk encryption recovery keys and should not be accessible
+   * via conversational AI. Do NOT create an MCP tool for this method.
+   *
+   * If you need this functionality, implement with additional safeguards:
+   * - Separate admin-only tool
+   * - Multi-factor authentication
+   * - Persistent audit logging
+   * - Time-limited access
    */
   async getFileVaultKey(deviceId: string): Promise<{ filevault_key: string }> {
     return this.request<{ filevault_key: string }>(`/devices/${deviceId}/secrets/filevaultkey`);
@@ -449,5 +500,27 @@ export class KandjiClient {
 
     const endpoint = `/threat-details${queryParams.toString() ? `?${queryParams.toString()}` : ''}`;
     return this.request<ThreatDetail[]>(endpoint);
+  }
+
+  /**
+   * List audit events
+   */
+  async listAuditEvents(params?: {
+    limit?: number;
+    sort_by?: string;
+    start_date?: string;
+    end_date?: string;
+    cursor?: string;
+  }): Promise<AuditEventListResponse> {
+    const queryParams = new URLSearchParams();
+    if (params?.limit !== undefined) queryParams.set('limit', params.limit.toString());
+    if (params?.sort_by) queryParams.set('sort_by', params.sort_by);
+    if (params?.start_date) queryParams.set('start_date', params.start_date);
+    if (params?.end_date) queryParams.set('end_date', params.end_date);
+    if (params?.cursor) queryParams.set('cursor', params.cursor);
+
+    const endpoint = `/audit/events${queryParams.toString() ? `?${queryParams.toString()}` : ''}`;
+    const response = await this.request<AuditEventListResponse>(endpoint);
+    return this.redactPII(response);
   }
 }

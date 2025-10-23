@@ -35,63 +35,85 @@ npm start
 ```
 
 ### Using with Claude Desktop
-The server runs as an MCP server compatible with Claude Desktop. Configure Claude Desktop to connect to this server.
+
+**Complete Setup Guide:** See [../config/README.md](../config/README.md)
+
+Quick steps:
+
+1. Build the server (from previous step)
+2. Copy example config:
+   ```bash
+   cp config/claude_desktop_config.example.json ~/Desktop/
+   ```
+3. Edit the file with your Kandji credentials
+4. Add to Claude Desktop config at `~/Library/Application Support/Claude/claude_desktop_config.json`
+5. Restart Claude Desktop
+
+The server will start automatically when Claude Desktop launches.
 
 ## Testing
 
-### Run All Tests
+### Unit Tests
 ```bash
-npm run test:integration
+npm test                # Run Jest unit tests (61 tests)
+npm run test:watch      # Run tests in watch mode
+npm run test:coverage   # Generate coverage report
 ```
 
-### Run Individual Test Suites
+### Integration Tests
 ```bash
-# Tags management
-npm run test:tags
+# Run all integration tests
+npm run test:integration
 
-# User management
-npm run test:users
-
-# Vulnerability management
-npm run test:vulnerabilities
-
-# Threat detection
-npm run test:threats
-
-# Licensing information
-npm run test:licensing
-
-# Comprehensive all-tools test
-npm run test:all
+# Run specific test suites
+npm run test:tags           # Tags management
+npm run test:users          # User management
+npm run test:vulnerabilities # Vulnerability management
+npm run test:threats        # Threat detection
+npm run test:licensing      # Licensing information
+npm run test:all            # Comprehensive all-tools test
 ```
 
 ## Available MCP Tools
 
-### Device Management (Original Tools)
+The server provides **23 MCP tools** across 6 categories:
+
+### Device Management (9 tools)
 1. `search_devices_by_criteria` - Search and filter devices
 2. `get_device_details` - Get detailed device information
-3. `get_compliance_summary` - Organization compliance overview
-4. `list_blueprints` - List all blueprints
-5. `execute_device_action` - Execute device actions (lock, restart, wipe)
-6. `get_licensing` - Licensing information
+3. `get_device_activity` - Device activity history
+4. `get_device_apps` - Installed applications list
+5. `get_device_library_items` - Library items and statuses
+6. `get_device_parameters` - Parameters for macOS devices
+7. `get_device_status` - Comprehensive device status
+8. `get_device_lost_mode_details` - Lost mode for iOS/iPadOS
+9. `execute_device_action` - Device actions (lock, restart, erase)
 
-### User Management
-7. `list_users` - List all users with optional filters
-8. `get_user` - Get specific user details by ID
+### Compliance & Reporting (2 tools)
+10. `get_compliance_summary` - Organization compliance overview
+11. `list_audit_events` - Audit log events
 
-### Tags
-9. `get_tags` - Get all tags with optional search
+### Configuration (2 tools)
+12. `list_blueprints` - List all blueprints
+13. `get_tags` - Get tags with optional search
 
-### Vulnerability Management
-10. `list_vulnerabilities` - List vulnerabilities with filters
-11. `get_vulnerability_details` - Get CVE details
-12. `list_vulnerability_detections` - List vulnerability detections
-13. `list_affected_devices` - Devices affected by a CVE
-14. `list_affected_software` - Software affected by a CVE
+### User Management (2 tools)
+14. `list_users` - List users with filters
+15. `get_user` - Get specific user details
 
-### Threat Detection
-15. `list_behavioral_detections` - List behavioral detections
-16. `get_threat_details` - Get detailed threat information
+### Security & Vulnerabilities (6 tools)
+16. `list_vulnerabilities` - List CVE vulnerabilities
+17. `get_vulnerability_details` - Get CVE details
+18. `list_vulnerability_detections` - Vulnerability detections
+19. `list_affected_devices` - Devices affected by CVE
+20. `list_affected_software` - Software affected by CVE
+21. `list_behavioral_detections` - Behavioral threat detections
+
+### Threat Management (2 tools)
+22. `get_threat_details` - Detailed threat information
+23. `get_licensing` - Licensing and utilization
+
+For detailed documentation, see [TOOLS.md](TOOLS.md).
 
 ## Quick Test Examples
 

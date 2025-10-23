@@ -189,11 +189,11 @@ All tools follow the **standardized response envelope**:
 
 ## 6. Security and Privacy
 
-- **PII toggle** at first-use prompt (session-based).  
-- **No emoji** in logs or console output.  
-- **Local structured audit log** includes: tool name, parameters (sanitized), duration, and result size.  
-- **Read-only mode** by default; destructive operations require `confirm: true`.  
-- **Compliance Alignment:** ISO 27001, SOC 2 T2, GDPR.  
+- **PII toggle** at first-use prompt (session-based).
+- **No emoji** in logs or console output.
+- **Device erase actions** logged to stdout for accountability.
+- **Read-only mode** by default; destructive operations require `confirm: true`.
+- **Security Best Practices:** Secure credential storage via .env (gitignored), input validation with Zod schemas, HTTPS-only API calls.  
 
 ---
 
