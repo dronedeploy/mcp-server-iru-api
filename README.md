@@ -1,4 +1,4 @@
-# Kandji MCP Server
+# MCP Server for Iru API (Previously Kandji API)
 
 > **📢 Rebranding Notice:** Kandji has rebranded as **Iru**. This MCP server continues to work with the Iru platform (formerly Kandji). All API endpoints and functionality remain unchanged. For more information about Iru, visit [iru.com](https://iru.com).
 
