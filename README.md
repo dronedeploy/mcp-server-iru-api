@@ -123,6 +123,163 @@ Quick setup:
 
 For troubleshooting and advanced options, see [config/README.md](config/README.md).
 
+## Example Questions for IT & Security Teams
+
+Ask these natural language questions in Claude Desktop to get actionable insights from your Iru/Kandji tenant. These examples demonstrate real-world IT and security use cases.
+
+### Security & Threat Intelligence
+
+**Vulnerability Management:**
+- "What are the top 10 most critical vulnerabilities affecting my fleet?"
+- "Show me all devices with known exploitable vulnerabilities"
+- "Which vulnerabilities have been detected in the last 7 days?"
+- "What devices are affected by CVE-2024-XXXXX?"
+- "List all high-severity CVEs with a CVSS score above 8.0"
+- "Show me vulnerable software that's installed on more than 50 devices"
+
+**Threat Detection & Response:**
+- "Are there any active malware detections in my environment?"
+- "Show me all quarantined threats from the last 30 days"
+- "List devices with behavioral detections classified as 'malicious'"
+- "What threats have been detected but not quarantined?"
+- "Show me all threat detections on executive devices"
+
+**Security Audit & Compliance:**
+- "Show me recent audit events related to device actions"
+- "What configuration changes were made in the last week?"
+- "Who performed device erase actions in the last 30 days?"
+- "List all authentication failures from the audit log"
+- "Show me admin activities from a specific date range"
+
+### Device Fleet Management
+
+**Compliance Monitoring:**
+- "What's our current fleet compliance rate?"
+- "Show me all non-compliant devices"
+- "Which devices haven't checked in for more than 7 days?"
+- "List all Mac devices that are not FileVault encrypted"
+- "Show me iOS devices that aren't supervised"
+- "What's the compliance breakdown by platform (Mac, iPhone, iPad)?"
+
+**Device Inventory & Discovery:**
+- "How many devices do we have in each blueprint?"
+- "Show me all MacBooks assigned to the Engineering team"
+- "List all devices running macOS versions older than Sonoma"
+- "What devices are assigned to user@company.com?"
+- "Show me all iPad devices in lost mode"
+- "Which devices have the Kandji agent version 1.2.3 installed?"
+
+**Application & Software Management:**
+- "What apps are installed on John's MacBook?"
+- "Show me all devices with Zoom installed"
+- "Which devices are missing required security software?"
+- "List all devices with unapproved software installed"
+- "What's the distribution of Microsoft Office versions across Macs?"
+
+### Configuration & Deployment
+
+**Blueprint & Policy Management:**
+- "What blueprints are available in my tenant?"
+- "Show me all library items assigned to the 'Executive' blueprint"
+- "Which devices are in the default blueprint?"
+- "List all configuration profiles deployed to iOS devices"
+- "What scripts are pending installation on device XYZ?"
+
+**Device Status & Health:**
+- "Show me the full compliance status for device ABC-123"
+- "What library items failed to install on this device?"
+- "Check the parameter status for all Mac devices in Engineering"
+- "Which devices have pending updates or installations?"
+- "Show me device activity history for the last 24 hours"
+
+### User & Identity Management
+
+**User Lifecycle:**
+- "How many active users are in my directory integration?"
+- "Show me all users created in the last 30 days"
+- "List devices assigned to users in the Finance department"
+- "What devices does user.name@company.com have enrolled?"
+- "Show me all archived users"
+
+**Access & Licensing:**
+- "What's our current license utilization?"
+- "How many licenses are available?"
+- "Show me our licensing tier and subscription status"
+- "When does our subscription expire?"
+
+### Incident Response & Remediation
+
+**Device Actions (Read-Only Queries):**
+- "Show me the last known location of device ABC-123"
+- "What's the battery level and connection status of device XYZ?"
+- "List all devices currently in lost mode"
+- "Show me recent activity for a potentially compromised device"
+
+**Investigation & Forensics:**
+- "What apps were recently installed on device ABC-123?"
+- "Show me all network configuration changes on this device"
+- "What user accounts exist on device XYZ?"
+- "List all failed login attempts on executive devices"
+- "Show me parameter compliance history for this device"
+
+### Reporting & Analytics
+
+**Executive Summaries:**
+- "Give me a high-level security overview of my fleet"
+- "What's our overall compliance percentage by platform?"
+- "How many critical vulnerabilities need immediate attention?"
+- "Show me a summary of threats detected this month"
+- "What's the health status of our device fleet?"
+
+**Trend Analysis:**
+- "How has our compliance rate changed over the last 30 days?"
+- "Show me vulnerability detection trends for this quarter"
+- "What devices consistently fail compliance checks?"
+- "List devices with recurring security issues"
+
+**Capacity Planning:**
+- "How many more devices can we enroll with our current license?"
+- "What's the breakdown of device types in our fleet?"
+- "Show me devices by macOS version for upgrade planning"
+- "How many devices will need hardware replacement based on age?"
+
+### Cross-Functional Queries
+
+**Combining Multiple Data Sources:**
+- "Show me all non-compliant devices with high-severity vulnerabilities"
+- "List executive devices with any security threats or vulnerabilities"
+- "Which Engineering team devices haven't checked in this week?"
+- "Show me devices in the Finance blueprint that are non-compliant"
+- "Find all devices with vulnerabilities that also have malware detections"
+
+### Quick Troubleshooting
+
+**Common IT Help Desk Questions:**
+- "Is device ABC-123 checking in properly?"
+- "What's the MDM enrollment status of this device?"
+- "Show me why device XYZ is marked as non-compliant"
+- "What library items are pending on this device?"
+- "Is FileVault enabled on this Mac?"
+- "What's the last activity timestamp for device ABC-123?"
+
+**Proactive Monitoring:**
+- "Are there any devices that need immediate attention?"
+- "Show me devices with failed security configurations"
+- "List all devices with agent communication issues"
+- "What devices have been offline for more than 48 hours?"
+
+### Tips for Effective Questions
+
+1. **Be Specific**: Reference device IDs, CVE IDs, or user emails when possible
+2. **Use Time Ranges**: "in the last 7 days", "this month", "since January 1st"
+3. **Filter by Criteria**: Platform (Mac/iPhone/iPad), blueprint, severity, status
+4. **Chain Queries**: Start broad, then drill down based on results
+5. **Export Large Datasets**: For queries returning 100+ results, request a bash script for complete data export
+
+### Need More Examples?
+
+See the [Complete Tool Reference](docs/TOOLS.md) for detailed parameter descriptions and additional examples for all 23 MCP tools.
+
 ## Available MCP Tools
 
 The server provides **23 MCP tools** organized into the following categories:
