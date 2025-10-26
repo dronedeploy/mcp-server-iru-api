@@ -171,7 +171,7 @@ describe('User and Tag Tools', () => {
 
         expect(result.metadata?.totalCount).toBe(3);
         expect(result.metadata?.elapsedMs).toBeDefined();
-        expect(result.metadata?.source).toBe('Kandji API');
+        expect(result.metadata?.source).toBe('Iru API');
       });
 
       it('should include suggestions', async () => {
@@ -384,7 +384,7 @@ describe('User and Tag Tools', () => {
         const result = await listUsers(client, {});
 
         expect(result.metadata?.elapsedMs).toBeDefined();
-        expect(result.metadata?.source).toBe('Kandji API');
+        expect(result.metadata?.source).toBe('Iru API');
       });
     });
   });
@@ -569,7 +569,7 @@ describe('User and Tag Tools', () => {
 
         expect(result.metadata?.totalCount).toBe(1);
         expect(result.metadata?.elapsedMs).toBeDefined();
-        expect(result.metadata?.source).toBe('Kandji API');
+        expect(result.metadata?.source).toBe('Iru API');
       });
 
       it('should include suggestions', async () => {

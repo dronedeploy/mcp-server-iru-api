@@ -38,7 +38,9 @@ describe('MCP Tools - Response Envelope Validation', () => {
         ],
       } as Response);
 
-      const result = await getDeviceActivity(client, { device_id: '550e8400-e29b-41d4-a716-446655440000' });
+      const result = await getDeviceActivity(client, {
+        device_id: '550e8400-e29b-41d4-a716-446655440000',
+      });
 
       expect(result).toHaveProperty('success', true);
       expect(result).toHaveProperty('summary');
@@ -49,7 +51,7 @@ describe('MCP Tools - Response Envelope Validation', () => {
       expect(result).toHaveProperty('metadata');
       expect(result.metadata).toHaveProperty('elapsedMs');
       expect(result.metadata).toHaveProperty('cached');
-      expect(result.metadata).toHaveProperty('source', 'Kandji API');
+      expect(result.metadata).toHaveProperty('source', 'Iru API');
       expect(result).toHaveProperty('suggestions');
       expect(result.suggestions).toBeInstanceOf(Array);
     });
@@ -62,7 +64,9 @@ describe('MCP Tools - Response Envelope Validation', () => {
         json: async () => ({ error: 'Device not found' }),
       } as Response);
 
-      const result = await getDeviceActivity(client, { device_id: '550e8400-e29b-41d4-a716-446655440000' });
+      const result = await getDeviceActivity(client, {
+        device_id: '550e8400-e29b-41d4-a716-446655440000',
+      });
 
       expect(result).toHaveProperty('success', false);
       expect(result).toHaveProperty('errors');
@@ -84,7 +88,9 @@ describe('MCP Tools - Response Envelope Validation', () => {
         json: async () => ({ error: 'Authentication failed' }),
       } as Response);
 
-      const result = await getDeviceApps(client, { device_id: '550e8400-e29b-41d4-a716-446655440000' });
+      const result = await getDeviceApps(client, {
+        device_id: '550e8400-e29b-41d4-a716-446655440000',
+      });
 
       expect(result.success).toBe(false);
       expect(result.errors![0].category).toBe('auth');
@@ -99,7 +105,9 @@ describe('MCP Tools - Response Envelope Validation', () => {
         json: async () => ({ error: 'Rate limit exceeded' }),
       } as Response);
 
-      const result = await getDeviceApps(client, { device_id: '550e8400-e29b-41d4-a716-446655440000' });
+      const result = await getDeviceApps(client, {
+        device_id: '550e8400-e29b-41d4-a716-446655440000',
+      });
 
       expect(result.success).toBe(false);
       expect(result.errors![0].category).toBe('rate_limit');
@@ -122,7 +130,9 @@ describe('MCP Tools - Response Envelope Validation', () => {
         json: async () => ({ error: 'Device not found' }),
       } as Response);
 
-      const result = await getDeviceLibraryItems(client, { device_id: '550e8400-e29b-41d4-a716-446655440000' });
+      const result = await getDeviceLibraryItems(client, {
+        device_id: '550e8400-e29b-41d4-a716-446655440000',
+      });
 
       expect(result.success).toBe(false);
       expect(result.errors![0].category).toBe('validation');
@@ -137,7 +147,9 @@ describe('MCP Tools - Response Envelope Validation', () => {
         json: async () => ({ error: 'Server error' }),
       } as Response);
 
-      const result = await getDeviceStatus(client, { device_id: '550e8400-e29b-41d4-a716-446655440000' });
+      const result = await getDeviceStatus(client, {
+        device_id: '550e8400-e29b-41d4-a716-446655440000',
+      });
 
       expect(result.success).toBe(false);
       expect(result.errors![0].category).toBe('server');
@@ -154,12 +166,16 @@ describe('MCP Tools - Response Envelope Validation', () => {
       } as Response);
 
       // First call - should fetch
-      const result1 = await getDeviceApps(client, { device_id: '550e8400-e29b-41d4-a716-446655440000' });
+      const result1 = await getDeviceApps(client, {
+        device_id: '550e8400-e29b-41d4-a716-446655440000',
+      });
       expect(result1.metadata?.cached).toBe(false);
       expect(mockFetch).toHaveBeenCalledTimes(1);
 
       // Second call - should use cache
-      const result2 = await getDeviceApps(client, { device_id: '550e8400-e29b-41d4-a716-446655440000' });
+      const result2 = await getDeviceApps(client, {
+        device_id: '550e8400-e29b-41d4-a716-446655440000',
+      });
       expect(result2.metadata?.cached).toBe(true);
       expect(mockFetch).toHaveBeenCalledTimes(1); // No additional fetch
     });
@@ -173,12 +189,16 @@ describe('MCP Tools - Response Envelope Validation', () => {
       } as Response);
 
       // First call - should fetch and fail
-      const result1 = await getDeviceParameters(client, { device_id: '550e8400-e29b-41d4-a716-446655440000' });
+      const result1 = await getDeviceParameters(client, {
+        device_id: '550e8400-e29b-41d4-a716-446655440000',
+      });
       expect(result1.success).toBe(false);
       expect(mockFetch).toHaveBeenCalledTimes(1);
 
       // Second call - should fetch again (not cached)
-      const result2 = await getDeviceParameters(client, { device_id: '550e8400-e29b-41d4-a716-446655440000' });
+      const result2 = await getDeviceParameters(client, {
+        device_id: '550e8400-e29b-41d4-a716-446655440000',
+      });
       expect(result2.success).toBe(false);
       expect(mockFetch).toHaveBeenCalledTimes(2);
     });
@@ -201,8 +221,16 @@ describe('getDeviceActivity', () => {
 
   it('should return activity records', async () => {
     const mockActivity = [
-      { timestamp: '2024-01-01T10:00:00Z', event_type: 'enrollment', description: 'Device enrolled' },
-      { timestamp: '2024-01-02T11:00:00Z', event_type: 'checkin', description: 'Device checked in' },
+      {
+        timestamp: '2024-01-01T10:00:00Z',
+        event_type: 'enrollment',
+        description: 'Device enrolled',
+      },
+      {
+        timestamp: '2024-01-02T11:00:00Z',
+        event_type: 'checkin',
+        description: 'Device checked in',
+      },
     ];
 
     mockFetch.mockResolvedValueOnce({
@@ -210,7 +238,9 @@ describe('getDeviceActivity', () => {
       json: async () => mockActivity,
     } as Response);
 
-    const result = await getDeviceActivity(client, { device_id: '550e8400-e29b-41d4-a716-446655440000' });
+    const result = await getDeviceActivity(client, {
+      device_id: '550e8400-e29b-41d4-a716-446655440000',
+    });
 
     expect(result.success).toBe(true);
     expect(result.data).toEqual(mockActivity);
@@ -229,10 +259,7 @@ describe('getDeviceActivity', () => {
       offset: 100,
     });
 
-    expect(mockFetch).toHaveBeenCalledWith(
-      expect.stringContaining('limit=50'),
-      expect.any(Object)
-    );
+    expect(mockFetch).toHaveBeenCalledWith(expect.stringContaining('limit=50'), expect.any(Object));
     expect(mockFetch).toHaveBeenCalledWith(
       expect.stringContaining('offset=100'),
       expect.any(Object)
@@ -267,7 +294,9 @@ describe('getDeviceLostModeDetails', () => {
       json: async () => mockLostMode,
     } as Response);
 
-    const result = await getDeviceLostModeDetails(client, { device_id: '550e8400-e29b-41d4-a716-446655440000' });
+    const result = await getDeviceLostModeDetails(client, {
+      device_id: '550e8400-e29b-41d4-a716-446655440000',
+    });
 
     expect(result.success).toBe(true);
     expect(result.summary).toContain('enabled');
@@ -280,7 +309,9 @@ describe('getDeviceLostModeDetails', () => {
       json: async () => ({ enabled: false }),
     } as Response);
 
-    const result = await getDeviceLostModeDetails(client, { device_id: '550e8400-e29b-41d4-a716-446655440000' });
+    const result = await getDeviceLostModeDetails(client, {
+      device_id: '550e8400-e29b-41d4-a716-446655440000',
+    });
 
     expect(result.success).toBe(true);
     expect(result.summary).toContain('disabled');
@@ -304,8 +335,18 @@ describe('listAuditEvents', () => {
   it('should return audit events with pagination', async () => {
     const mockResponse = {
       results: [
-        { id: '1', occurred_at: '2024-01-01T10:00:00Z', event_type: 'device.enrolled', user: 'admin@example.com' },
-        { id: '2', occurred_at: '2024-01-02T11:00:00Z', event_type: 'blueprint.updated', user: 'admin@example.com' },
+        {
+          id: '1',
+          occurred_at: '2024-01-01T10:00:00Z',
+          event_type: 'device.enrolled',
+          user: 'admin@example.com',
+        },
+        {
+          id: '2',
+          occurred_at: '2024-01-02T11:00:00Z',
+          event_type: 'blueprint.updated',
+          user: 'admin@example.com',
+        },
       ],
       count: 2,
       next: null,

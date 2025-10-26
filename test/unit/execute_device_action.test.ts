@@ -475,7 +475,7 @@ describe('executeDeviceAction', () => {
       expect(result).toHaveProperty('metadata');
       expect(result.metadata).toHaveProperty('elapsedMs');
       expect(result.metadata).toHaveProperty('cached', false);
-      expect(result.metadata).toHaveProperty('source', 'Kandji API');
+      expect(result.metadata).toHaveProperty('source', 'Iru API');
     });
 
     it('should include correct table data for successful action', async () => {
@@ -596,7 +596,7 @@ describe('executeDeviceAction', () => {
 
       expect(result.success).toBe(false);
       expect(result.errors![0].category).toBe('server');
-      expect(result.errors![0].recovery.some(r => r.includes('Kandji API status'))).toBe(true);
+      expect(result.errors![0].recovery.some(r => r.includes('Iru API status'))).toBe(true);
     });
 
     it('should include elapsed time in error response', async () => {

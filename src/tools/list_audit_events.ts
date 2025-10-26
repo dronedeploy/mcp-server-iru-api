@@ -60,7 +60,7 @@ export async function listAuditEvents(
           totalCount: cachedData.count,
           elapsedMs: Date.now() - startTime,
           cached: true,
-          source: 'Kandji API',
+          source: 'Iru API',
         },
         suggestions: [
           cachedData.next ? 'Use cursor parameter to fetch next page' : 'All events retrieved',
@@ -132,7 +132,7 @@ export async function listAuditEvents(
         totalCount: response.count,
         elapsedMs: Date.now() - startTime,
         cached: false,
-        source: 'Kandji API',
+        source: 'Iru API',
       },
       suggestions: [
         response.next ? 'Use cursor parameter to fetch next page' : 'All events retrieved',
@@ -149,14 +149,11 @@ export async function listAuditEvents(
 
     // Categorize error
     let category: 'validation' | 'auth' | 'rate_limit' | 'network' | 'server' = 'server';
-    let recovery: string[] = ['Check Kandji API status'];
+    let recovery: string[] = ['Check Iru API status'];
 
     if (errorMessage.includes('Authentication')) {
       category = 'auth';
-      recovery = [
-        'Verify KANDJI_API_TOKEN in .env file',
-        'Regenerate API token in Kandji settings',
-      ];
+      recovery = ['Verify KANDJI_API_TOKEN in .env file', 'Regenerate API token in Iru settings'];
     } else if (errorMessage.includes('Rate limit')) {
       category = 'rate_limit';
       recovery = ['Wait a moment and retry', 'Reduce request frequency'];
@@ -177,7 +174,7 @@ export async function listAuditEvents(
       metadata: {
         elapsedMs: Date.now() - startTime,
         cached: false,
-        source: 'Kandji API',
+        source: 'Iru API',
       },
     };
   }

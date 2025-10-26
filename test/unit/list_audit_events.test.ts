@@ -466,7 +466,7 @@ describe('listAuditEvents', () => {
 
       const result = await listAuditEvents(client, {});
 
-      expect(result.metadata?.source).toBe('Kandji API');
+      expect(result.metadata?.source).toBe('Iru API');
     });
   });
 

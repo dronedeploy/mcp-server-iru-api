@@ -298,7 +298,7 @@ describe('listBlueprints', () => {
 
       const result = await listBlueprints(client);
 
-      expect(result.metadata?.source).toBe('Kandji API');
+      expect(result.metadata?.source).toBe('Iru API');
     });
 
     it('should include helpful suggestions', async () => {

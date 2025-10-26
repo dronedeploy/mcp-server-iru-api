@@ -342,7 +342,7 @@ describe('getLicensing', () => {
 
       const result = await getLicensing(client);
 
-      expect(result.metadata?.source).toBe('Kandji API');
+      expect(result.metadata?.source).toBe('Iru API');
     });
 
     it('should include helpful suggestions', async () => {

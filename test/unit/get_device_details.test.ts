@@ -329,7 +329,7 @@ describe('getDeviceDetails', () => {
 
       const result = await getDeviceDetails(client, { device_id: validDeviceId });
 
-      expect(result.metadata?.source).toBe('Kandji API');
+      expect(result.metadata?.source).toBe('Iru API');
     });
 
     it('should include helpful suggestions', async () => {

@@ -201,7 +201,7 @@ describe('Threat Detection Tools', () => {
 
       expect(result.success).toBe(false);
       expect(result.errors![0].category).toBe('server');
-      expect(result.errors![0].recovery).toContain('Check Kandji API status');
+      expect(result.errors![0].recovery).toContain('Check Iru API status');
     });
   });
 
@@ -393,7 +393,7 @@ describe('Threat Detection Tools', () => {
 
       expect(result.success).toBe(false);
       expect(result.errors![0].category).toBe('server');
-      expect(result.errors![0].recovery).toContain('Check Kandji API status');
+      expect(result.errors![0].recovery).toContain('Check Iru API status');
     });
   });
 });

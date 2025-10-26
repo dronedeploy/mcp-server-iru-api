@@ -39,7 +39,7 @@ export async function listBehavioralDetections(
         totalCount: detections.length,
         elapsedMs: Date.now() - startTime,
         cached: false,
-        source: 'Kandji API',
+        source: 'Iru API',
       },
       suggestions: [
         'Use filters to narrow down results',
@@ -50,14 +50,11 @@ export async function listBehavioralDetections(
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';
 
     let category: 'validation' | 'auth' | 'rate_limit' | 'network' | 'server' = 'server';
-    let recovery: string[] = ['Check Kandji API status'];
+    let recovery: string[] = ['Check Iru API status'];
 
     if (errorMessage.includes('Authentication')) {
       category = 'auth';
-      recovery = [
-        'Verify KANDJI_API_TOKEN in .env file',
-        'Regenerate API token in Kandji settings',
-      ];
+      recovery = ['Verify KANDJI_API_TOKEN in .env file', 'Regenerate API token in Iru settings'];
     } else if (errorMessage.includes('Rate limit')) {
       category = 'rate_limit';
       recovery = ['Wait a moment and retry', 'Reduce request frequency'];
@@ -75,7 +72,7 @@ export async function listBehavioralDetections(
       metadata: {
         elapsedMs: Date.now() - startTime,
         cached: false,
-        source: 'Kandji API',
+        source: 'Iru API',
       },
     };
   }

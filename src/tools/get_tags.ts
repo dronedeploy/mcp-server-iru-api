@@ -33,7 +33,7 @@ export async function getTags(
         totalCount: tags.length,
         elapsedMs: Date.now() - startTime,
         cached: false,
-        source: 'Kandji API',
+        source: 'Iru API',
       },
       suggestions: [
         'Use tags to filter devices and organize assets',
@@ -45,14 +45,11 @@ export async function getTags(
 
     // Categorize error
     let category: 'validation' | 'auth' | 'rate_limit' | 'network' | 'server' = 'server';
-    let recovery: string[] = ['Check Kandji API status'];
+    let recovery: string[] = ['Check Iru API status'];
 
     if (errorMessage.includes('Authentication')) {
       category = 'auth';
-      recovery = [
-        'Verify KANDJI_API_TOKEN in .env file',
-        'Regenerate API token in Kandji settings',
-      ];
+      recovery = ['Verify KANDJI_API_TOKEN in .env file', 'Regenerate API token in Iru settings'];
     } else if (errorMessage.includes('Rate limit')) {
       category = 'rate_limit';
       recovery = ['Wait a moment and retry', 'Reduce request frequency'];
@@ -70,7 +67,7 @@ export async function getTags(
       metadata: {
         elapsedMs: Date.now() - startTime,
         cached: false,
-        source: 'Kandji API',
+        source: 'Iru API',
       },
     };
   }

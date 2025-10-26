@@ -45,7 +45,7 @@ export async function getDeviceStatus(
         metadata: {
           elapsedMs: Date.now() - startTime,
           cached: true,
-          source: 'Kandji API',
+          source: 'Iru API',
         },
         suggestions: [
           'View device details',
@@ -78,7 +78,7 @@ export async function getDeviceStatus(
       metadata: {
         elapsedMs: Date.now() - startTime,
         cached: false,
-        source: 'Kandji API',
+        source: 'Iru API',
       },
       suggestions: [
         'View device details',
@@ -91,14 +91,11 @@ export async function getDeviceStatus(
 
     // Categorize error
     let category: 'validation' | 'auth' | 'rate_limit' | 'network' | 'server' = 'server';
-    let recovery: string[] = ['Check Kandji API status'];
+    let recovery: string[] = ['Check Iru API status'];
 
     if (errorMessage.includes('Authentication')) {
       category = 'auth';
-      recovery = [
-        'Verify KANDJI_API_TOKEN in .env file',
-        'Regenerate API token in Kandji settings',
-      ];
+      recovery = ['Verify KANDJI_API_TOKEN in .env file', 'Regenerate API token in Iru settings'];
     } else if (errorMessage.includes('Rate limit')) {
       category = 'rate_limit';
       recovery = ['Wait a moment and retry', 'Reduce request frequency'];
@@ -122,7 +119,7 @@ export async function getDeviceStatus(
       metadata: {
         elapsedMs: Date.now() - startTime,
         cached: false,
-        source: 'Kandji API',
+        source: 'Iru API',
       },
     };
   }

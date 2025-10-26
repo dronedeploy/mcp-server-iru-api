@@ -344,7 +344,7 @@ describe('listVulnerabilities', () => {
       expect(result.metadata).toBeDefined();
       expect(result.metadata?.elapsedMs).toBeDefined();
       expect(typeof result.metadata?.elapsedMs).toBe('number');
-      expect(result.metadata?.source).toBe('Kandji API');
+      expect(result.metadata?.source).toBe('Iru API');
     });
   });
 
@@ -391,7 +391,7 @@ describe('listVulnerabilities', () => {
 
       expect(result.success).toBe(false);
       expect(result.errors![0].category).toBe('server');
-      expect(result.errors![0].recovery.some(r => r.includes('Kandji API status'))).toBe(true);
+      expect(result.errors![0].recovery.some(r => r.includes('Iru API status'))).toBe(true);
     });
 
     it('should include metadata in error response', async () => {
@@ -407,7 +407,7 @@ describe('listVulnerabilities', () => {
       expect(result.metadata).toBeDefined();
       expect(result.metadata?.elapsedMs).toBeDefined();
       expect(result.metadata?.cached).toBe(false);
-      expect(result.metadata?.source).toBe('Kandji API');
+      expect(result.metadata?.source).toBe('Iru API');
     });
   });
 

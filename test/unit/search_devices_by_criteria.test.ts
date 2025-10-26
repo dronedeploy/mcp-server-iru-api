@@ -471,7 +471,7 @@ describe('searchDevicesByCriteria', () => {
       expect(result.metadata).toHaveProperty('totalCount');
       expect(result.metadata).toHaveProperty('elapsedMs');
       expect(result.metadata).toHaveProperty('cached');
-      expect(result.metadata).toHaveProperty('source', 'Kandji API');
+      expect(result.metadata).toHaveProperty('source', 'Iru API');
       expect(result).toHaveProperty('suggestions');
     });
 
@@ -577,7 +577,7 @@ describe('searchDevicesByCriteria', () => {
 
       expect(result.success).toBe(false);
       expect(result.errors![0].category).toBe('server');
-      expect(result.errors![0].recovery.some(r => r.includes('Kandji API status'))).toBe(true);
+      expect(result.errors![0].recovery.some(r => r.includes('Iru API status'))).toBe(true);
     });
 
     it('should include metadata in error response', async () => {
@@ -593,7 +593,7 @@ describe('searchDevicesByCriteria', () => {
       expect(result.metadata).toBeDefined();
       expect(result.metadata?.elapsedMs).toBeDefined();
       expect(result.metadata?.cached).toBe(false);
-      expect(result.metadata?.source).toBe('Kandji API');
+      expect(result.metadata?.source).toBe('Iru API');
     });
   });
 });
