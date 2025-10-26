@@ -1,5 +1,7 @@
 # Kandji MCP Server - Tool Reference
 
+> **Note:** Kandji has been rebranded as **Iru**. This documentation references "Kandji" as that remains the current API naming convention. All functionality works identically with the Iru platform.
+
 Complete reference for all 23 MCP tools provided by the Kandji MCP Server.
 
 ## Table of Contents

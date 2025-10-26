@@ -1,6 +1,8 @@
 # Kandji MCP Server
 
-AI-driven device management through Model Context Protocol. This MCP server enables natural-language interactions with the Kandji MDM API via Claude Desktop.
+> **📢 Rebranding Notice:** Kandji has rebranded as **Iru**. This MCP server continues to work with the Iru platform (formerly Kandji). All API endpoints and functionality remain unchanged. For more information about Iru, visit [iru.com](https://iru.com).
+
+AI-driven device management through Model Context Protocol. This MCP server enables natural-language interactions with the Iru (formerly Kandji) MDM API via Claude Desktop.
 
 ## Features
 

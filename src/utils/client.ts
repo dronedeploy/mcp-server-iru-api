@@ -1,6 +1,10 @@
 /**
  * Kandji API Client
  * Handles all HTTP interactions with the Kandji API
+ *
+ * Note: "Kandji" naming is maintained for API alignment.
+ * Kandji rebranded as "Iru" in 2025, but API endpoints remain at *.api.kandji.io
+ * See REBRAND.md for details.
  */
 
 import {

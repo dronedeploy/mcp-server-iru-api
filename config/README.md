@@ -1,5 +1,7 @@
 # Claude Desktop Configuration
 
+> **Note:** Kandji has been rebranded as **Iru**. This documentation references "Kandji" as that remains the current API naming convention. All functionality works identically with the Iru platform.
+
 This folder contains example configuration files for integrating the Kandji MCP Server with Anthropic Claude Desktop.
 
 ## Quick Setup

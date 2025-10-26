@@ -1,5 +1,7 @@
 # Kandji API Reference
 
+> **Note:** Kandji has been rebranded as **Iru**. This documentation references "Kandji" as that remains the current API naming convention. All functionality works identically with the Iru platform.
+
 This document provides a comprehensive reference for the Kandji API endpoints used in this MCP server.
 
 ## Base Configuration

@@ -1,5 +1,9 @@
 /**
  * TypeScript types and interfaces for Kandji API
+ *
+ * Note: "Kandji" naming is maintained throughout this codebase for API alignment.
+ * Kandji rebranded as "Iru" in 2025, but the API infrastructure continues to use
+ * kandji.io domains and "Kandji" naming conventions. See REBRAND.md for details.
  */
 
 // MCP Response Envelope

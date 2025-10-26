@@ -2,6 +2,8 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+> **Note:** Kandji has been rebranded as **Iru**. Code and documentation reference "Kandji" as that remains the current API naming convention. All functionality works identically with the Iru platform.
+
 ## Project Overview
 
 This is a **Kandji MCP (Model Context Protocol) Server** built on the FastMCP framework. It provides a local, secure bridge between Anthropic Claude Desktop and the Kandji MDM API, enabling AI-driven device management, compliance reporting, and automation through natural language.

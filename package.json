@@ -1,7 +1,7 @@
 {
-  "name": "mcp-server-kandji-api",
+  "name": "mcp-server-iru-api",
   "version": "1.0.0",
-  "description": "Kandji MCP Server - AI-driven device management through Model Context Protocol",
+  "description": "Iru (formerly Kandji) MCP Server - AI-driven device management through Model Context Protocol",
   "main": "dist/index.js",
   "type": "module",
   "scripts": {
@@ -24,6 +24,7 @@
   "keywords": [
     "mcp",
     "model-context-protocol",
+    "iru",
     "kandji",
     "mdm",
     "device-management",

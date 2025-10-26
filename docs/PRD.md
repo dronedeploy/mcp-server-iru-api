@@ -1,8 +1,10 @@
 # Kandji MCP Server PRD
 
-**Version:** 1.0.0  
+> **Note:** Kandji has been rebranded as **Iru**. This documentation references "Kandji" as that remains the current API naming convention. All functionality works identically with the Iru platform.
 
-**Date:** October 2025  
+**Version:** 1.0.0
+
+**Date:** October 2025
 
 **Author:** Simon Tin-Yul Kok
 

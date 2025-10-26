@@ -1,5 +1,7 @@
 # Kandji MCP Server - Quick Start Guide
 
+> **Note:** Kandji has been rebranded as **Iru**. This documentation references "Kandji" as that remains the current API naming convention. All functionality works identically with the Iru platform.
+
 ## Installation & Setup
 
 ### 1. Install Dependencies

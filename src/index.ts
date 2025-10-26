@@ -2,6 +2,9 @@
 /**
  * Kandji MCP Server
  * AI-driven device management through Model Context Protocol
+ *
+ * Note: Kandji rebranded as "Iru" in 2025. This server works with the Iru platform.
+ * "Kandji" naming is maintained for API compatibility. See REBRAND.md for details.
  */
 
 import { FastMCP } from 'fastmcp';
