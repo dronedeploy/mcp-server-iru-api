@@ -17,7 +17,7 @@ AI-driven device management through Model Context Protocol. This MCP server enab
 ### Technical Features
 - **Smart Caching**: TTL-based caching (5min devices, 2min compliance, 30min blueprints)
 - **Script Generation**: Automatic bash scripts for large data exports with pagination handling
-- **Comprehensive Testing**: 61 unit tests with 32% coverage (utils at 80%+)
+- **Comprehensive Testing**: 456 unit tests with 81% branch coverage (exceeds 80% threshold)
 - **PII Redaction**: Optional privacy mode for sensitive data
 - **Error Handling**: Categorized errors (auth, validation, rate_limit, network, server) with recovery strategies
 - **Response Envelopes**: Standardized response format with tables, metadata, and suggestions
@@ -278,7 +278,7 @@ mcp-server-kandji-api/
 │   ├── README.md           # Setup instructions
 │   └── claude_desktop_config.example.json
 ├── test/                   # Test suite
-│   ├── unit/               # Jest unit tests (61 tests)
+│   ├── unit/               # Jest unit tests (456 tests, 81% coverage)
 │   ├── integration/        # Integration tests
 │   └── scripts/            # Test utilities
 ├── docs/                   # Documentation
