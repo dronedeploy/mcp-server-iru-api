@@ -8,7 +8,7 @@ import { MCPResponse, ThreatDetail } from '../utils/types.js';
 
 export async function getThreatDetails(
   client: KandjiClient,
-  params: { classification?: string, status?: string, device_id?: string, limit?: number }
+  params: { classification?: string; status?: string; device_id?: string; limit?: number }
 ): Promise<MCPResponse<ThreatDetail[]>> {
   const startTime = Date.now();
 
@@ -19,12 +19,12 @@ export async function getThreatDetails(
       success: true,
       summary: `Found ${threats.length} threat(s)`,
       table: {
-        columns: ["Threat Name","Device","Classification","Status","Detection Date"],
+        columns: ['Threat Name', 'Device', 'Classification', 'Status', 'Detection Date'],
         rows: threats.map(t => ({
           'Threat Name': t.threat_name,
-          'Device': t.device_name || 'N/A',
-          'Classification': t.classification,
-          'Status': t.status || 'N/A',
+          Device: t.device_name || 'N/A',
+          Classification: t.classification,
+          Status: t.status || 'N/A',
           'Detection Date': t.detection_date || 'N/A',
         })),
       },
@@ -48,7 +48,10 @@ export async function getThreatDetails(
 
     if (errorMessage.includes('Authentication')) {
       category = 'auth';
-      recovery = ['Verify KANDJI_API_TOKEN in .env file', 'Regenerate API token in Kandji settings'];
+      recovery = [
+        'Verify KANDJI_API_TOKEN in .env file',
+        'Regenerate API token in Kandji settings',
+      ];
     } else if (errorMessage.includes('Rate limit')) {
       category = 'rate_limit';
       recovery = ['Wait a moment and retry', 'Reduce request frequency'];
@@ -56,11 +59,13 @@ export async function getThreatDetails(
 
     return {
       success: false,
-      errors: [{
-        category,
-        message: errorMessage,
-        recovery,
-      }],
+      errors: [
+        {
+          category,
+          message: errorMessage,
+          recovery,
+        },
+      ],
       metadata: {
         elapsedMs: Date.now() - startTime,
         cached: false,

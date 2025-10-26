@@ -25,7 +25,7 @@ export async function getTags(
         columns: ['Tag Name', 'ID'],
         rows: tags.map(tag => ({
           'Tag Name': tag.name,
-          'ID': tag.id,
+          ID: tag.id,
         })),
       },
       data: tags,
@@ -49,7 +49,10 @@ export async function getTags(
 
     if (errorMessage.includes('Authentication')) {
       category = 'auth';
-      recovery = ['Verify KANDJI_API_TOKEN in .env file', 'Regenerate API token in Kandji settings'];
+      recovery = [
+        'Verify KANDJI_API_TOKEN in .env file',
+        'Regenerate API token in Kandji settings',
+      ];
     } else if (errorMessage.includes('Rate limit')) {
       category = 'rate_limit';
       recovery = ['Wait a moment and retry', 'Reduce request frequency'];
@@ -57,11 +60,13 @@ export async function getTags(
 
     return {
       success: false,
-      errors: [{
-        category,
-        message: errorMessage,
-        recovery,
-      }],
+      errors: [
+        {
+          category,
+          message: errorMessage,
+          recovery,
+        },
+      ],
       metadata: {
         elapsedMs: Date.now() - startTime,
         cached: false,

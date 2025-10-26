@@ -10,13 +10,19 @@ import { MCPResponse, AuditEventListResponse } from '../utils/types.js';
 import {
   generatePaginatedScript,
   shouldOfferScript,
-  generateScriptSuggestion
+  generateScriptSuggestion,
 } from '../utils/scriptGenerator.js';
 
 const AuditEventsSchema = z.object({
   limit: z.number().optional().describe('Maximum number of events to return (max 500)'),
-  sort_by: z.string().optional().describe('Sort results by field (e.g., -occurred_at for descending)'),
-  start_date: z.string().optional().describe('Filter by start date (YYYY-MM-DD or datetime format)'),
+  sort_by: z
+    .string()
+    .optional()
+    .describe('Sort results by field (e.g., -occurred_at for descending)'),
+  start_date: z
+    .string()
+    .optional()
+    .describe('Filter by start date (YYYY-MM-DD or datetime format)'),
   end_date: z.string().optional().describe('Filter by end date (YYYY-MM-DD or datetime format)'),
   cursor: z.string().optional().describe('Cursor for pagination'),
 });
@@ -75,11 +81,22 @@ export async function listAuditEvents(
     const offerScript = shouldOfferScript(response.count, response.results.length, hasNext, limit);
     let script: string | undefined;
 
-    if (offerScript && process.env.KANDJI_API_TOKEN && process.env.KANDJI_SUBDOMAIN && process.env.KANDJI_REGION) {
+    if (
+      offerScript &&
+      process.env.KANDJI_API_TOKEN &&
+      process.env.KANDJI_SUBDOMAIN &&
+      process.env.KANDJI_REGION
+    ) {
       const scriptParams: Record<string, string> = {};
-      if (sort_by) scriptParams.sort_by = sort_by;
-      if (start_date) scriptParams.start_date = start_date;
-      if (end_date) scriptParams.end_date = end_date;
+      if (sort_by) {
+        scriptParams.sort_by = sort_by;
+      }
+      if (start_date) {
+        scriptParams.start_date = start_date;
+      }
+      if (end_date) {
+        scriptParams.end_date = end_date;
+      }
 
       script = generatePaginatedScript(
         {
@@ -121,7 +138,9 @@ export async function listAuditEvents(
         response.next ? 'Use cursor parameter to fetch next page' : 'All events retrieved',
         'Filter by date range for specific period',
         'Sort by different fields for different views',
-        ...(offerScript ? [generateScriptSuggestion(response.count, response.results.length, hasNext)] : []),
+        ...(offerScript
+          ? [generateScriptSuggestion(response.count, response.results.length, hasNext)]
+          : []),
       ],
       script,
     };
@@ -134,7 +153,10 @@ export async function listAuditEvents(
 
     if (errorMessage.includes('Authentication')) {
       category = 'auth';
-      recovery = ['Verify KANDJI_API_TOKEN in .env file', 'Regenerate API token in Kandji settings'];
+      recovery = [
+        'Verify KANDJI_API_TOKEN in .env file',
+        'Regenerate API token in Kandji settings',
+      ];
     } else if (errorMessage.includes('Rate limit')) {
       category = 'rate_limit';
       recovery = ['Wait a moment and retry', 'Reduce request frequency'];
@@ -145,11 +167,13 @@ export async function listAuditEvents(
 
     return {
       success: false,
-      errors: [{
-        category,
-        message: errorMessage,
-        recovery,
-      }],
+      errors: [
+        {
+          category,
+          message: errorMessage,
+          recovery,
+        },
+      ],
       metadata: {
         elapsedMs: Date.now() - startTime,
         cached: false,

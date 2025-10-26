@@ -8,23 +8,26 @@ import { MCPResponse, AffectedDevice } from '../utils/types.js';
 
 export async function listAffectedDevices(
   client: KandjiClient,
-  params: { cve_id: string, page?: number, size?: number }
+  params: { cve_id: string; page?: number; size?: number }
 ): Promise<MCPResponse<{ results: AffectedDevice[]; next?: string | null; count?: number }>> {
   const startTime = Date.now();
 
   try {
-    const devices = await client.listAffectedDevices(params.cve_id, { page: params.page, size: params.size });
+    const devices = await client.listAffectedDevices(params.cve_id, {
+      page: params.page,
+      size: params.size,
+    });
 
     return {
       success: true,
       summary: `Found ${devices.results.length} affected device(s)`,
       table: {
-        columns: ["Device Name","Serial Number","OS Version","Software","Detection Date"],
+        columns: ['Device Name', 'Serial Number', 'OS Version', 'Software', 'Detection Date'],
         rows: devices.results.map(d => ({
           'Device Name': d.device_name,
           'Serial Number': d.device_serial_number || 'N/A',
           'OS Version': d.device_os_version || 'N/A',
-          'Software': d.software_name || 'N/A',
+          Software: d.software_name || 'N/A',
           'Detection Date': d.detection_datetime || 'N/A',
         })),
       },
@@ -48,7 +51,10 @@ export async function listAffectedDevices(
 
     if (errorMessage.includes('Authentication')) {
       category = 'auth';
-      recovery = ['Verify KANDJI_API_TOKEN in .env file', 'Regenerate API token in Kandji settings'];
+      recovery = [
+        'Verify KANDJI_API_TOKEN in .env file',
+        'Regenerate API token in Kandji settings',
+      ];
     } else if (errorMessage.includes('Rate limit')) {
       category = 'rate_limit';
       recovery = ['Wait a moment and retry', 'Reduce request frequency'];
@@ -56,11 +62,13 @@ export async function listAffectedDevices(
 
     return {
       success: false,
-      errors: [{
-        category,
-        message: errorMessage,
-        recovery,
-      }],
+      errors: [
+        {
+          category,
+          message: errorMessage,
+          recovery,
+        },
+      ],
       metadata: {
         elapsedMs: Date.now() - startTime,
         cached: false,

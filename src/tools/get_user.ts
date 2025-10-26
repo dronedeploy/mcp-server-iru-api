@@ -19,12 +19,12 @@ export async function getUser(
       success: true,
       summary: `Retrieved user: ${userData.email || userData.id}`,
       table: {
-        columns: ["Field","Value"],
+        columns: ['Field', 'Value'],
         rows: [
-          { 'Field': 'ID', 'Value': userData.id },
-          { 'Field': 'Email', 'Value': userData.email || 'N/A' },
-          { 'Field': 'Name', 'Value': userData.name || 'N/A' },
-          { 'Field': 'Archived', 'Value': userData.archived ? 'Yes' : 'No' },
+          { Field: 'ID', Value: userData.id },
+          { Field: 'Email', Value: userData.email || 'N/A' },
+          { Field: 'Name', Value: userData.name || 'N/A' },
+          { Field: 'Archived', Value: userData.archived ? 'Yes' : 'No' },
         ],
       },
       data: userData,
@@ -47,7 +47,10 @@ export async function getUser(
 
     if (errorMessage.includes('Authentication')) {
       category = 'auth';
-      recovery = ['Verify KANDJI_API_TOKEN in .env file', 'Regenerate API token in Kandji settings'];
+      recovery = [
+        'Verify KANDJI_API_TOKEN in .env file',
+        'Regenerate API token in Kandji settings',
+      ];
     } else if (errorMessage.includes('Rate limit')) {
       category = 'rate_limit';
       recovery = ['Wait a moment and retry', 'Reduce request frequency'];
@@ -55,11 +58,13 @@ export async function getUser(
 
     return {
       success: false,
-      errors: [{
-        category,
-        message: errorMessage,
-        recovery,
-      }],
+      errors: [
+        {
+          category,
+          message: errorMessage,
+          recovery,
+        },
+      ],
       metadata: {
         elapsedMs: Date.now() - startTime,
         cached: false,

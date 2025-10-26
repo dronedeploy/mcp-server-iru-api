@@ -10,9 +10,7 @@ import { MCPResponse, KandjiLicensing } from '../utils/types.js';
 // Cache TTL for licensing data: 1 hour (3600 seconds)
 const LICENSING_TTL = 3600;
 
-export async function getLicensing(
-  client: KandjiClient
-): Promise<MCPResponse<KandjiLicensing>> {
+export async function getLicensing(client: KandjiClient): Promise<MCPResponse<KandjiLicensing>> {
   const startTime = Date.now();
 
   try {
@@ -78,22 +76,30 @@ export async function getLicensing(
 
     if (errorMessage.includes('Authentication')) {
       category = 'auth';
-      recovery = ['Verify KANDJI_API_TOKEN in .env file', 'Regenerate API token in Kandji settings'];
+      recovery = [
+        'Verify KANDJI_API_TOKEN in .env file',
+        'Regenerate API token in Kandji settings',
+      ];
     } else if (errorMessage.includes('Rate limit')) {
       category = 'rate_limit';
       recovery = ['Wait a moment and retry', 'Reduce request frequency'];
     } else if (errorMessage.includes('not found') || errorMessage.includes('404')) {
       category = 'server';
-      recovery = ['Verify licensing endpoint is available for your Kandji instance', 'Contact Kandji support'];
+      recovery = [
+        'Verify licensing endpoint is available for your Kandji instance',
+        'Contact Kandji support',
+      ];
     }
 
     return {
       success: false,
-      errors: [{
-        category,
-        message: errorMessage,
-        recovery,
-      }],
+      errors: [
+        {
+          category,
+          message: errorMessage,
+          recovery,
+        },
+      ],
       metadata: {
         elapsedMs: Date.now() - startTime,
         cached: false,
@@ -110,9 +116,10 @@ function formatLicensingSummary(licensing: KandjiLicensing, cached: boolean): st
   // Handle different possible response structures
   if (licensing.total_licenses !== undefined && licensing.used_licenses !== undefined) {
     const available = licensing.total_licenses - licensing.used_licenses;
-    const utilization = licensing.total_licenses > 0
-      ? ((licensing.used_licenses / licensing.total_licenses) * 100).toFixed(1)
-      : '0.0';
+    const utilization =
+      licensing.total_licenses > 0
+        ? ((licensing.used_licenses / licensing.total_licenses) * 100).toFixed(1)
+        : '0.0';
 
     return `License utilization: ${licensing.used_licenses}/${licensing.total_licenses} (${utilization}%), ${available} available${cached ? ' (from cache)' : ''}`;
   }
@@ -124,7 +131,9 @@ function formatLicensingSummary(licensing: KandjiLicensing, cached: boolean): st
 /**
  * Format licensing data into table rows
  */
-function formatLicensingTable(licensing: KandjiLicensing): Array<{ Metric: string; Value: string }> {
+function formatLicensingTable(
+  licensing: KandjiLicensing
+): Array<{ Metric: string; Value: string }> {
   const rows: Array<{ Metric: string; Value: string }> = [];
 
   // Map common licensing fields to table rows
@@ -151,9 +160,10 @@ function formatLicensingTable(licensing: KandjiLicensing): Array<{ Metric: strin
   // Calculate derived fields
   if (licensing.total_licenses !== undefined && licensing.used_licenses !== undefined) {
     const available = licensing.total_licenses - licensing.used_licenses;
-    const utilization = licensing.total_licenses > 0
-      ? ((licensing.used_licenses / licensing.total_licenses) * 100).toFixed(1)
-      : '0.0';
+    const utilization =
+      licensing.total_licenses > 0
+        ? ((licensing.used_licenses / licensing.total_licenses) * 100).toFixed(1)
+        : '0.0';
 
     rows.push({
       Metric: 'Available Licenses',

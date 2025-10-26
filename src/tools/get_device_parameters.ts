@@ -93,13 +93,20 @@ export async function getDeviceParameters(
 
     if (errorMessage.includes('Authentication')) {
       category = 'auth';
-      recovery = ['Verify KANDJI_API_TOKEN in .env file', 'Regenerate API token in Kandji settings'];
+      recovery = [
+        'Verify KANDJI_API_TOKEN in .env file',
+        'Regenerate API token in Kandji settings',
+      ];
     } else if (errorMessage.includes('Rate limit')) {
       category = 'rate_limit';
       recovery = ['Wait a moment and retry', 'Reduce request frequency'];
     } else if (errorMessage.includes('not found')) {
       category = 'validation';
-      recovery = ['Verify the device_id is correct', 'Parameters endpoint is only applicable to macOS devices', 'Search for devices to find the correct ID'];
+      recovery = [
+        'Verify the device_id is correct',
+        'Parameters endpoint is only applicable to macOS devices',
+        'Search for devices to find the correct ID',
+      ];
     } else if (error instanceof z.ZodError) {
       category = 'validation';
       recovery = ['Provide a valid device UUID', 'Check the device_id parameter format'];
@@ -107,11 +114,13 @@ export async function getDeviceParameters(
 
     return {
       success: false,
-      errors: [{
-        category,
-        message: errorMessage,
-        recovery,
-      }],
+      errors: [
+        {
+          category,
+          message: errorMessage,
+          recovery,
+        },
+      ],
       metadata: {
         elapsedMs: Date.now() - startTime,
         cached: false,

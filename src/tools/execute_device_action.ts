@@ -30,14 +30,16 @@ export async function executeDeviceAction(
     if (!confirm) {
       return {
         success: false,
-        errors: [{
-          category: 'validation',
-          message: 'Device action requires explicit confirmation. Set confirm=true to proceed.',
-          recovery: [
-            'Add confirm: true to the request',
-            'Verify this is the correct device before confirming',
-          ],
-        }],
+        errors: [
+          {
+            category: 'validation',
+            message: 'Device action requires explicit confirmation. Set confirm=true to proceed.',
+            recovery: [
+              'Add confirm: true to the request',
+              'Verify this is the correct device before confirming',
+            ],
+          },
+        ],
         metadata: {
           elapsedMs: Date.now() - startTime,
           cached: false,
@@ -49,12 +51,14 @@ export async function executeDeviceAction(
     // Additional warning for erase action
     if (action === 'erase') {
       // Log audit trail for destructive action
-      console.log(JSON.stringify({
-        timestamp: new Date().toISOString(),
-        action: 'DEVICE_ERASE',
-        device_id,
-        confirmed: confirm,
-      }));
+      console.error(
+        JSON.stringify({
+          timestamp: new Date().toISOString(),
+          action: 'DEVICE_ERASE',
+          device_id,
+          confirmed: confirm,
+        })
+      );
     }
 
     // Execute the action
@@ -112,10 +116,13 @@ export async function executeDeviceAction(
         cached: false,
         source: 'Kandji API',
       },
-      suggestions: action === 'erase' ? [] : [
-        'Check device status with get_device_details',
-        'View device activity to confirm action execution',
-      ],
+      suggestions:
+        action === 'erase'
+          ? []
+          : [
+              'Check device status with get_device_details',
+              'View device activity to confirm action execution',
+            ],
     };
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';
@@ -126,7 +133,10 @@ export async function executeDeviceAction(
 
     if (errorMessage.includes('Authentication')) {
       category = 'auth';
-      recovery = ['Verify KANDJI_API_TOKEN in .env file', 'Regenerate API token in Kandji settings'];
+      recovery = [
+        'Verify KANDJI_API_TOKEN in .env file',
+        'Regenerate API token in Kandji settings',
+      ];
     } else if (errorMessage.includes('Rate limit')) {
       category = 'rate_limit';
       recovery = ['Wait a moment and retry', 'Reduce request frequency'];
@@ -145,11 +155,13 @@ export async function executeDeviceAction(
 
     return {
       success: false,
-      errors: [{
-        category,
-        message: errorMessage,
-        recovery,
-      }],
+      errors: [
+        {
+          category,
+          message: errorMessage,
+          recovery,
+        },
+      ],
       metadata: {
         elapsedMs: Date.now() - startTime,
         cached: false,

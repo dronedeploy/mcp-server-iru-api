@@ -45,24 +45,22 @@ export class KandjiClient {
     // US: https://{subdomain}.api.kandji.io/api/v1
     // EU: https://{subdomain}.api.eu.kandji.io/api/v1
     const region = config.region || 'us';
-    this.baseUrl = region === 'eu'
-      ? `https://${config.subdomain}.api.eu.kandji.io/api/v1`
-      : `https://${config.subdomain}.api.kandji.io/api/v1`;
+    this.baseUrl =
+      region === 'eu'
+        ? `https://${config.subdomain}.api.eu.kandji.io/api/v1`
+        : `https://${config.subdomain}.api.kandji.io/api/v1`;
   }
 
   /**
    * Make an authenticated request to the Kandji API
    */
-  private async request<T>(
-    endpoint: string,
-    options: RequestInit = {}
-  ): Promise<T> {
+  private async request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
     const url = `${this.baseUrl}${endpoint}`;
 
     const response = await fetch(url, {
       ...options,
       headers: {
-        'Authorization': `Bearer ${this.apiToken}`,
+        Authorization: `Bearer ${this.apiToken}`,
         'Content-Type': 'application/json',
         ...options.headers,
       },
@@ -83,8 +81,8 @@ export class KandjiClient {
     let errorMessage = `Kandji API error: ${response.statusText}`;
 
     try {
-      const errorData = await response.json() as { error?: string };
-      if (errorData && errorData.error) {
+      const errorData = (await response.json()) as { error?: string };
+      if (errorData?.error) {
         errorMessage = errorData.error;
       }
     } catch {
@@ -148,10 +146,18 @@ export class KandjiClient {
     offset?: number;
   }): Promise<KandjiDevice[]> {
     const queryParams = new URLSearchParams();
-    if (params?.blueprint_id) queryParams.set('blueprint_id', params.blueprint_id);
-    if (params?.platform) queryParams.set('platform', params.platform);
-    if (params?.limit) queryParams.set('limit', params.limit.toString());
-    if (params?.offset) queryParams.set('offset', params.offset.toString());
+    if (params?.blueprint_id) {
+      queryParams.set('blueprint_id', params.blueprint_id);
+    }
+    if (params?.platform) {
+      queryParams.set('platform', params.platform);
+    }
+    if (params?.limit) {
+      queryParams.set('limit', params.limit.toString());
+    }
+    if (params?.offset) {
+      queryParams.set('offset', params.offset.toString());
+    }
 
     const endpoint = `/devices${queryParams.toString() ? `?${queryParams.toString()}` : ''}`;
     const devices = await this.request<KandjiDevice[]>(endpoint);
@@ -176,13 +182,20 @@ export class KandjiClient {
   /**
    * Get device activity
    */
-  async getDeviceActivity(deviceId: string, params?: {
-    limit?: number;
-    offset?: number;
-  }): Promise<KandjiActivity[]> {
+  async getDeviceActivity(
+    deviceId: string,
+    params?: {
+      limit?: number;
+      offset?: number;
+    }
+  ): Promise<KandjiActivity[]> {
     const queryParams = new URLSearchParams();
-    if (params?.limit) queryParams.set('limit', params.limit.toString());
-    if (params?.offset) queryParams.set('offset', params.offset.toString());
+    if (params?.limit) {
+      queryParams.set('limit', params.limit.toString());
+    }
+    if (params?.offset) {
+      queryParams.set('offset', params.offset.toString());
+    }
 
     const endpoint = `/devices/${deviceId}/activity${queryParams.toString() ? `?${queryParams.toString()}` : ''}`;
     return this.request<KandjiActivity[]>(endpoint);
@@ -233,13 +246,14 @@ export class KandjiClient {
   /**
    * Get Prism device information (compliance data)
    */
-  async getPrismDeviceInfo(params?: {
-    blueprint_id?: string;
-    platform?: string;
-  }): Promise<any[]> {
+  async getPrismDeviceInfo(params?: { blueprint_id?: string; platform?: string }): Promise<any[]> {
     const queryParams = new URLSearchParams();
-    if (params?.blueprint_id) queryParams.set('blueprint_id', params.blueprint_id);
-    if (params?.platform) queryParams.set('platform', params.platform);
+    if (params?.blueprint_id) {
+      queryParams.set('blueprint_id', params.blueprint_id);
+    }
+    if (params?.platform) {
+      queryParams.set('platform', params.platform);
+    }
 
     const endpoint = `/prism/device_information${queryParams.toString() ? `?${queryParams.toString()}` : ''}`;
     const data = await this.request<any[]>(endpoint);
@@ -279,11 +293,14 @@ export class KandjiClient {
   /**
    * Erase a device
    */
-  async eraseDevice(deviceId: string, options?: {
-    pin?: string;
-    preserve_data_plan?: boolean;
-    disallow_proximity_setup?: boolean;
-  }): Promise<DeviceActionResponse> {
+  async eraseDevice(
+    deviceId: string,
+    options?: {
+      pin?: string;
+      preserve_data_plan?: boolean;
+      disallow_proximity_setup?: boolean;
+    }
+  ): Promise<DeviceActionResponse> {
     return this.request<DeviceActionResponse>(`/devices/${deviceId}/action/erase`, {
       method: 'POST',
       body: options ? JSON.stringify(options) : undefined,
@@ -325,11 +342,21 @@ export class KandjiClient {
     cursor?: string;
   }): Promise<UserListResponse> {
     const queryParams = new URLSearchParams();
-    if (params?.email) queryParams.set('email', params.email);
-    if (params?.id) queryParams.set('id', params.id);
-    if (params?.integration_id) queryParams.set('integration_id', params.integration_id);
-    if (params?.archived !== undefined) queryParams.set('archived', params.archived.toString());
-    if (params?.cursor) queryParams.set('cursor', params.cursor);
+    if (params?.email) {
+      queryParams.set('email', params.email);
+    }
+    if (params?.id) {
+      queryParams.set('id', params.id);
+    }
+    if (params?.integration_id) {
+      queryParams.set('integration_id', params.integration_id);
+    }
+    if (params?.archived !== undefined) {
+      queryParams.set('archived', params.archived.toString());
+    }
+    if (params?.cursor) {
+      queryParams.set('cursor', params.cursor);
+    }
 
     const endpoint = `/users${queryParams.toString() ? `?${queryParams.toString()}` : ''}`;
     const response = await this.request<UserListResponse>(endpoint);
@@ -347,11 +374,11 @@ export class KandjiClient {
   /**
    * Get configured tags
    */
-  async getTags(params?: {
-    search?: string;
-  }): Promise<KandjiTag[]> {
+  async getTags(params?: { search?: string }): Promise<KandjiTag[]> {
     const queryParams = new URLSearchParams();
-    if (params?.search) queryParams.set('search', params.search);
+    if (params?.search) {
+      queryParams.set('search', params.search);
+    }
 
     const endpoint = `/tags${queryParams.toString() ? `?${queryParams.toString()}` : ''}`;
     return this.request<KandjiTag[]>(endpoint);
@@ -367,10 +394,18 @@ export class KandjiClient {
     filter?: string;
   }): Promise<VulnerabilityListResponse> {
     const queryParams = new URLSearchParams();
-    if (params?.page !== undefined) queryParams.set('page', params.page.toString());
-    if (params?.size !== undefined) queryParams.set('size', params.size.toString());
-    if (params?.sort_by) queryParams.set('sort_by', params.sort_by);
-    if (params?.filter) queryParams.set('filter', params.filter);
+    if (params?.page !== undefined) {
+      queryParams.set('page', params.page.toString());
+    }
+    if (params?.size !== undefined) {
+      queryParams.set('size', params.size.toString());
+    }
+    if (params?.sort_by) {
+      queryParams.set('sort_by', params.sort_by);
+    }
+    if (params?.filter) {
+      queryParams.set('filter', params.filter);
+    }
 
     const endpoint = `/vulnerability-management/vulnerabilities${queryParams.toString() ? `?${queryParams.toString()}` : ''}`;
     return this.request<VulnerabilityListResponse>(endpoint);
@@ -386,39 +421,65 @@ export class KandjiClient {
   /**
    * List devices affected by a specific CVE
    */
-  async listAffectedDevices(cveId: string, params?: {
-    page?: number;
-    size?: number;
-    sort_by?: string;
-    filter?: string;
-  }): Promise<{ results: AffectedDevice[]; next?: string | null; count?: number }> {
+  async listAffectedDevices(
+    cveId: string,
+    params?: {
+      page?: number;
+      size?: number;
+      sort_by?: string;
+      filter?: string;
+    }
+  ): Promise<{ results: AffectedDevice[]; next?: string | null; count?: number }> {
     const queryParams = new URLSearchParams();
-    if (params?.page !== undefined) queryParams.set('page', params.page.toString());
-    if (params?.size !== undefined) queryParams.set('size', params.size.toString());
-    if (params?.sort_by) queryParams.set('sort_by', params.sort_by);
-    if (params?.filter) queryParams.set('filter', params.filter);
+    if (params?.page !== undefined) {
+      queryParams.set('page', params.page.toString());
+    }
+    if (params?.size !== undefined) {
+      queryParams.set('size', params.size.toString());
+    }
+    if (params?.sort_by) {
+      queryParams.set('sort_by', params.sort_by);
+    }
+    if (params?.filter) {
+      queryParams.set('filter', params.filter);
+    }
 
     const endpoint = `/vulnerability-management/vulnerabilities/${cveId}/devices${queryParams.toString() ? `?${queryParams.toString()}` : ''}`;
-    return this.request<{ results: AffectedDevice[]; next?: string | null; count?: number }>(endpoint);
+    return this.request<{ results: AffectedDevice[]; next?: string | null; count?: number }>(
+      endpoint
+    );
   }
 
   /**
    * List software affected by a specific CVE
    */
-  async listAffectedSoftware(cveId: string, params?: {
-    page?: number;
-    size?: number;
-    sort_by?: string;
-    filter?: string;
-  }): Promise<{ results: AffectedSoftware[]; next?: string | null; count?: number }> {
+  async listAffectedSoftware(
+    cveId: string,
+    params?: {
+      page?: number;
+      size?: number;
+      sort_by?: string;
+      filter?: string;
+    }
+  ): Promise<{ results: AffectedSoftware[]; next?: string | null; count?: number }> {
     const queryParams = new URLSearchParams();
-    if (params?.page !== undefined) queryParams.set('page', params.page.toString());
-    if (params?.size !== undefined) queryParams.set('size', params.size.toString());
-    if (params?.sort_by) queryParams.set('sort_by', params.sort_by);
-    if (params?.filter) queryParams.set('filter', params.filter);
+    if (params?.page !== undefined) {
+      queryParams.set('page', params.page.toString());
+    }
+    if (params?.size !== undefined) {
+      queryParams.set('size', params.size.toString());
+    }
+    if (params?.sort_by) {
+      queryParams.set('sort_by', params.sort_by);
+    }
+    if (params?.filter) {
+      queryParams.set('filter', params.filter);
+    }
 
     const endpoint = `/vulnerability-management/vulnerabilities/${cveId}/software${queryParams.toString() ? `?${queryParams.toString()}` : ''}`;
-    return this.request<{ results: AffectedSoftware[]; next?: string | null; count?: number }>(endpoint);
+    return this.request<{ results: AffectedSoftware[]; next?: string | null; count?: number }>(
+      endpoint
+    );
   }
 
   /**
@@ -430,9 +491,15 @@ export class KandjiClient {
     filter?: string;
   }): Promise<VulnerabilityDetectionListResponse> {
     const queryParams = new URLSearchParams();
-    if (params?.after) queryParams.set('after', params.after);
-    if (params?.size !== undefined) queryParams.set('size', params.size.toString());
-    if (params?.filter) queryParams.set('filter', params.filter);
+    if (params?.after) {
+      queryParams.set('after', params.after);
+    }
+    if (params?.size !== undefined) {
+      queryParams.set('size', params.size.toString());
+    }
+    if (params?.filter) {
+      queryParams.set('filter', params.filter);
+    }
 
     const endpoint = `/vulnerability-management/detections${queryParams.toString() ? `?${queryParams.toString()}` : ''}`;
     return this.request<VulnerabilityDetectionListResponse>(endpoint);
@@ -459,21 +526,51 @@ export class KandjiClient {
     offset?: number;
   }): Promise<BehavioralDetection[]> {
     const queryParams = new URLSearchParams();
-    if (params?.threat_id) queryParams.set('threat_id', params.threat_id);
-    if (params?.classification) queryParams.set('classification', params.classification);
-    if (params?.status) queryParams.set('status', params.status);
-    if (params?.date_range !== undefined) queryParams.set('date_range', params.date_range.toString());
-    if (params?.detection_date_from) queryParams.set('detection_date_from', params.detection_date_from);
-    if (params?.detection_date_to) queryParams.set('detection_date_to', params.detection_date_to);
-    if (params?.device_id) queryParams.set('device_id', params.device_id);
-    if (params?.malware_family) queryParams.set('malware_family', params.malware_family);
-    if (params?.parent_process_name) queryParams.set('parent_process_name', params.parent_process_name);
-    if (params?.target_process_name) queryParams.set('target_process_name', params.target_process_name);
-    if (params?.informational_tags) queryParams.set('informational_tags', params.informational_tags);
-    if (params?.term) queryParams.set('term', params.term);
-    if (params?.sort_by) queryParams.set('sort_by', params.sort_by);
-    if (params?.limit !== undefined) queryParams.set('limit', params.limit.toString());
-    if (params?.offset !== undefined) queryParams.set('offset', params.offset.toString());
+    if (params?.threat_id) {
+      queryParams.set('threat_id', params.threat_id);
+    }
+    if (params?.classification) {
+      queryParams.set('classification', params.classification);
+    }
+    if (params?.status) {
+      queryParams.set('status', params.status);
+    }
+    if (params?.date_range !== undefined) {
+      queryParams.set('date_range', params.date_range.toString());
+    }
+    if (params?.detection_date_from) {
+      queryParams.set('detection_date_from', params.detection_date_from);
+    }
+    if (params?.detection_date_to) {
+      queryParams.set('detection_date_to', params.detection_date_to);
+    }
+    if (params?.device_id) {
+      queryParams.set('device_id', params.device_id);
+    }
+    if (params?.malware_family) {
+      queryParams.set('malware_family', params.malware_family);
+    }
+    if (params?.parent_process_name) {
+      queryParams.set('parent_process_name', params.parent_process_name);
+    }
+    if (params?.target_process_name) {
+      queryParams.set('target_process_name', params.target_process_name);
+    }
+    if (params?.informational_tags) {
+      queryParams.set('informational_tags', params.informational_tags);
+    }
+    if (params?.term) {
+      queryParams.set('term', params.term);
+    }
+    if (params?.sort_by) {
+      queryParams.set('sort_by', params.sort_by);
+    }
+    if (params?.limit !== undefined) {
+      queryParams.set('limit', params.limit.toString());
+    }
+    if (params?.offset !== undefined) {
+      queryParams.set('offset', params.offset.toString());
+    }
 
     const endpoint = `/behavioral-detections${queryParams.toString() ? `?${queryParams.toString()}` : ''}`;
     return this.request<BehavioralDetection[]>(endpoint);
@@ -493,14 +590,30 @@ export class KandjiClient {
     offset?: number;
   }): Promise<ThreatDetail[]> {
     const queryParams = new URLSearchParams();
-    if (params?.classification) queryParams.set('classification', params.classification);
-    if (params?.date_range !== undefined) queryParams.set('date_range', params.date_range.toString());
-    if (params?.device_id) queryParams.set('device_id', params.device_id);
-    if (params?.status) queryParams.set('status', params.status);
-    if (params?.sort_by) queryParams.set('sort_by', params.sort_by);
-    if (params?.term) queryParams.set('term', params.term);
-    if (params?.limit !== undefined) queryParams.set('limit', params.limit.toString());
-    if (params?.offset !== undefined) queryParams.set('offset', params.offset.toString());
+    if (params?.classification) {
+      queryParams.set('classification', params.classification);
+    }
+    if (params?.date_range !== undefined) {
+      queryParams.set('date_range', params.date_range.toString());
+    }
+    if (params?.device_id) {
+      queryParams.set('device_id', params.device_id);
+    }
+    if (params?.status) {
+      queryParams.set('status', params.status);
+    }
+    if (params?.sort_by) {
+      queryParams.set('sort_by', params.sort_by);
+    }
+    if (params?.term) {
+      queryParams.set('term', params.term);
+    }
+    if (params?.limit !== undefined) {
+      queryParams.set('limit', params.limit.toString());
+    }
+    if (params?.offset !== undefined) {
+      queryParams.set('offset', params.offset.toString());
+    }
 
     const endpoint = `/threat-details${queryParams.toString() ? `?${queryParams.toString()}` : ''}`;
     return this.request<ThreatDetail[]>(endpoint);
@@ -517,11 +630,21 @@ export class KandjiClient {
     cursor?: string;
   }): Promise<AuditEventListResponse> {
     const queryParams = new URLSearchParams();
-    if (params?.limit !== undefined) queryParams.set('limit', params.limit.toString());
-    if (params?.sort_by) queryParams.set('sort_by', params.sort_by);
-    if (params?.start_date) queryParams.set('start_date', params.start_date);
-    if (params?.end_date) queryParams.set('end_date', params.end_date);
-    if (params?.cursor) queryParams.set('cursor', params.cursor);
+    if (params?.limit !== undefined) {
+      queryParams.set('limit', params.limit.toString());
+    }
+    if (params?.sort_by) {
+      queryParams.set('sort_by', params.sort_by);
+    }
+    if (params?.start_date) {
+      queryParams.set('start_date', params.start_date);
+    }
+    if (params?.end_date) {
+      queryParams.set('end_date', params.end_date);
+    }
+    if (params?.cursor) {
+      queryParams.set('cursor', params.cursor);
+    }
 
     const endpoint = `/audit/events${queryParams.toString() ? `?${queryParams.toString()}` : ''}`;
     const response = await this.request<AuditEventListResponse>(endpoint);

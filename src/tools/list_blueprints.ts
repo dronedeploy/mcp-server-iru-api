@@ -26,7 +26,7 @@ export async function listBlueprints(
           columns: ['Blueprint Name', 'ID', 'Enrollment Active'],
           rows: cachedData.map(b => ({
             'Blueprint Name': b.name,
-            'ID': b.id,
+            ID: b.id,
             'Enrollment Active': b.enrollment_code_is_active ? 'Yes' : 'No',
           })),
         },
@@ -57,7 +57,7 @@ export async function listBlueprints(
         columns: ['Blueprint Name', 'ID', 'Enrollment Active'],
         rows: blueprints.map(b => ({
           'Blueprint Name': b.name,
-          'ID': b.id,
+          ID: b.id,
           'Enrollment Active': b.enrollment_code_is_active ? 'Yes' : 'No',
         })),
       },
@@ -82,7 +82,10 @@ export async function listBlueprints(
 
     if (errorMessage.includes('Authentication')) {
       category = 'auth';
-      recovery = ['Verify KANDJI_API_TOKEN in .env file', 'Regenerate API token in Kandji settings'];
+      recovery = [
+        'Verify KANDJI_API_TOKEN in .env file',
+        'Regenerate API token in Kandji settings',
+      ];
     } else if (errorMessage.includes('Rate limit')) {
       category = 'rate_limit';
       recovery = ['Wait a moment and retry', 'Reduce request frequency'];
@@ -90,11 +93,13 @@ export async function listBlueprints(
 
     return {
       success: false,
-      errors: [{
-        category,
-        message: errorMessage,
-        recovery,
-      }],
+      errors: [
+        {
+          category,
+          message: errorMessage,
+          recovery,
+        },
+      ],
       metadata: {
         elapsedMs: Date.now() - startTime,
         cached: false,

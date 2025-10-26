@@ -78,11 +78,7 @@ export async function getDeviceApps(
         cached: false,
         source: 'Kandji API',
       },
-      suggestions: [
-        'View device details',
-        'Check device activity',
-        'Review library items status',
-      ],
+      suggestions: ['View device details', 'Check device activity', 'Review library items status'],
     };
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';
@@ -93,7 +89,10 @@ export async function getDeviceApps(
 
     if (errorMessage.includes('Authentication')) {
       category = 'auth';
-      recovery = ['Verify KANDJI_API_TOKEN in .env file', 'Regenerate API token in Kandji settings'];
+      recovery = [
+        'Verify KANDJI_API_TOKEN in .env file',
+        'Regenerate API token in Kandji settings',
+      ];
     } else if (errorMessage.includes('Rate limit')) {
       category = 'rate_limit';
       recovery = ['Wait a moment and retry', 'Reduce request frequency'];
@@ -107,11 +106,13 @@ export async function getDeviceApps(
 
     return {
       success: false,
-      errors: [{
-        category,
-        message: errorMessage,
-        recovery,
-      }],
+      errors: [
+        {
+          category,
+          message: errorMessage,
+          recovery,
+        },
+      ],
       metadata: {
         elapsedMs: Date.now() - startTime,
         cached: false,

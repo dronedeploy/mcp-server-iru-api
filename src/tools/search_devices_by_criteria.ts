@@ -37,10 +37,10 @@ export async function searchDevicesByCriteria(
           columns: ['Device Name', 'Platform', 'OS Version', 'Serial Number', 'User'],
           rows: cachedData.map(d => ({
             'Device Name': d.device_name,
-            'Platform': d.platform,
+            Platform: d.platform,
             'OS Version': d.os_version,
             'Serial Number': d.serial_number,
-            'User': d.user_email || 'N/A',
+            User: d.user_email || 'N/A',
           })),
         },
         data: cachedData,
@@ -67,9 +67,7 @@ export async function searchDevicesByCriteria(
     let filteredDevices = devices;
     if (validatedParams.name) {
       const nameQuery = validatedParams.name.toLowerCase();
-      filteredDevices = devices.filter(d =>
-        d.device_name.toLowerCase().includes(nameQuery)
-      );
+      filteredDevices = devices.filter(d => d.device_name.toLowerCase().includes(nameQuery));
     }
 
     // Cache the results
@@ -82,10 +80,10 @@ export async function searchDevicesByCriteria(
         columns: ['Device Name', 'Platform', 'OS Version', 'Serial Number', 'User'],
         rows: filteredDevices.map(d => ({
           'Device Name': d.device_name,
-          'Platform': d.platform,
+          Platform: d.platform,
           'OS Version': d.os_version,
           'Serial Number': d.serial_number,
-          'User': d.user_email || 'N/A',
+          User: d.user_email || 'N/A',
         })),
       },
       data: filteredDevices,
@@ -109,7 +107,10 @@ export async function searchDevicesByCriteria(
 
     if (errorMessage.includes('Authentication')) {
       category = 'auth';
-      recovery = ['Verify KANDJI_API_TOKEN in .env file', 'Regenerate API token in Kandji settings'];
+      recovery = [
+        'Verify KANDJI_API_TOKEN in .env file',
+        'Regenerate API token in Kandji settings',
+      ];
     } else if (errorMessage.includes('Rate limit')) {
       category = 'rate_limit';
       recovery = ['Wait a moment and retry', 'Reduce request frequency'];
@@ -120,11 +121,13 @@ export async function searchDevicesByCriteria(
 
     return {
       success: false,
-      errors: [{
-        category,
-        message: errorMessage,
-        recovery,
-      }],
+      errors: [
+        {
+          category,
+          message: errorMessage,
+          recovery,
+        },
+      ],
       metadata: {
         elapsedMs: Date.now() - startTime,
         cached: false,

@@ -10,7 +10,7 @@ import { MCPResponse, KandjiActivity } from '../utils/types.js';
 import {
   generatePaginatedScript,
   shouldOfferScript,
-  generateScriptSuggestion
+  generateScriptSuggestion,
 } from '../utils/scriptGenerator.js';
 
 const DeviceActivitySchema = z.object({
@@ -55,11 +55,7 @@ export async function getDeviceActivity(
           cached: true,
           source: 'Kandji API',
         },
-        suggestions: [
-          'View device details',
-          'Check installed apps',
-          'Review device status',
-        ],
+        suggestions: ['View device details', 'Check installed apps', 'Review device status'],
       };
     }
 
@@ -70,10 +66,20 @@ export async function getDeviceActivity(
     cache.set(cacheKey, activities, CacheTTL.DEVICES);
 
     // Determine if we should offer a script for large exports
-    const offerScript = shouldOfferScript(undefined, activities.length, activities.length === limit, limit);
+    const offerScript = shouldOfferScript(
+      undefined,
+      activities.length,
+      activities.length === limit,
+      limit
+    );
     let script: string | undefined;
 
-    if (offerScript && process.env.KANDJI_API_TOKEN && process.env.KANDJI_SUBDOMAIN && process.env.KANDJI_REGION) {
+    if (
+      offerScript &&
+      process.env.KANDJI_API_TOKEN &&
+      process.env.KANDJI_SUBDOMAIN &&
+      process.env.KANDJI_REGION
+    ) {
       script = generatePaginatedScript(
         {
           endpoint: `/devices/${device_id}/activity`,
@@ -115,7 +121,9 @@ export async function getDeviceActivity(
         'View device details',
         'Check installed apps',
         'Review device status',
-        ...(offerScript ? [generateScriptSuggestion(undefined, activities.length, activities.length === limit)] : []),
+        ...(offerScript
+          ? [generateScriptSuggestion(undefined, activities.length, activities.length === limit)]
+          : []),
       ],
       script,
     };
@@ -128,7 +136,10 @@ export async function getDeviceActivity(
 
     if (errorMessage.includes('Authentication')) {
       category = 'auth';
-      recovery = ['Verify KANDJI_API_TOKEN in .env file', 'Regenerate API token in Kandji settings'];
+      recovery = [
+        'Verify KANDJI_API_TOKEN in .env file',
+        'Regenerate API token in Kandji settings',
+      ];
     } else if (errorMessage.includes('Rate limit')) {
       category = 'rate_limit';
       recovery = ['Wait a moment and retry', 'Reduce request frequency'];
@@ -142,11 +153,13 @@ export async function getDeviceActivity(
 
     return {
       success: false,
-      errors: [{
-        category,
-        message: errorMessage,
-        recovery,
-      }],
+      errors: [
+        {
+          category,
+          message: errorMessage,
+          recovery,
+        },
+      ],
       metadata: {
         elapsedMs: Date.now() - startTime,
         cached: false,

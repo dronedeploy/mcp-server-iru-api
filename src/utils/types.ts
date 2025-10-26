@@ -25,7 +25,7 @@ export interface MCPResponse<T = unknown> {
   };
   suggestions?: string[];
   errors?: ErrorDetail[];
-  script?: string;  // Optional bash script for large data exports
+  script?: string; // Optional bash script for large data exports
 }
 
 // Error handling

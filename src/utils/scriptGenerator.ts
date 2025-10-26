@@ -4,7 +4,7 @@
  */
 
 export interface ScriptConfig {
-  endpoint: string;  // API endpoint path (e.g., '/devices/{device_id}/activity')
+  endpoint: string; // API endpoint path (e.g., '/devices/{device_id}/activity')
   paginationType: 'offset' | 'cursor';
   params?: Record<string, string | number | boolean>;
   outputFormat?: 'json' | 'csv' | 'jsonl';
@@ -21,16 +21,15 @@ export interface KandjiConfig {
 /**
  * Generate a bash script for paginated data export
  */
-export function generatePaginatedScript(
-  config: ScriptConfig,
-  kandjiConfig: KandjiConfig
-): string {
+export function generatePaginatedScript(config: ScriptConfig, kandjiConfig: KandjiConfig): string {
   const { subdomain, region, token } = kandjiConfig;
-  const baseUrl = region === 'eu'
-    ? `https://${subdomain}.clients.eu.kandji.io/api/v1`
-    : `https://${subdomain}.api.kandji.io/api/v1`;
+  const baseUrl =
+    region === 'eu'
+      ? `https://${subdomain}.clients.eu.kandji.io/api/v1`
+      : `https://${subdomain}.api.kandji.io/api/v1`;
 
-  const outputFile = config.outputFile || `kandji_export_${Date.now()}.${config.outputFormat || 'json'}`;
+  const outputFile =
+    config.outputFile || `kandji_export_${Date.now()}.${config.outputFormat || 'json'}`;
 
   if (config.paginationType === 'offset') {
     return generateOffsetPaginationScript(baseUrl, config, outputFile, token);
@@ -298,7 +297,9 @@ echo -e "  cat \${OUTPUT_FILE} | jq -r '(.[0] | keys_unsorted) as \$keys | \$key
  * Build query parameters string
  */
 function buildQueryParams(params?: Record<string, string | number | boolean>): string {
-  if (!params) return '';
+  if (!params) {
+    return '';
+  }
 
   const filtered = Object.entries(params)
     .filter(([key]) => key !== 'limit' && key !== 'offset' && key !== 'cursor')
@@ -318,13 +319,19 @@ export function shouldOfferScript(
   limit?: number
 ): boolean {
   // Offer script if there are multiple pages
-  if (hasNext) return true;
+  if (hasNext) {
+    return true;
+  }
 
   // Offer script if total count exceeds limit
-  if (totalCount && limit && totalCount > limit) return true;
+  if (totalCount && limit && totalCount > limit) {
+    return true;
+  }
 
   // Offer script if we're dealing with large datasets (>100 records)
-  if (currentCount && currentCount >= 100) return true;
+  if (currentCount && currentCount >= 100) {
+    return true;
+  }
 
   return false;
 }

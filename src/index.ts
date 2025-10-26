@@ -84,9 +84,10 @@ const DeviceActionSchema = z.object({
 // Register tools
 server.addTool({
   name: 'search_devices_by_criteria',
-  description: 'Filter devices by name, platform, or blueprint. Use this to find devices matching specific criteria.',
+  description:
+    'Filter devices by name, platform, or blueprint. Use this to find devices matching specific criteria.',
   parameters: SearchCriteriaSchema,
-  execute: async (params) => {
+  execute: async params => {
     const result = await searchDevicesByCriteria(kandjiClient, params);
     return JSON.stringify(result, null, 2);
   },
@@ -94,9 +95,10 @@ server.addTool({
 
 server.addTool({
   name: 'get_device_details',
-  description: 'Retrieve detailed information about a specific device by its UUID. Returns hardware specs, software version, user info, and MDM status.',
+  description:
+    'Retrieve detailed information about a specific device by its UUID. Returns hardware specs, software version, user info, and MDM status.',
   parameters: DeviceDetailsSchema,
-  execute: async (params) => {
+  execute: async params => {
     const result = await getDeviceDetails(kandjiClient, params);
     return JSON.stringify(result, null, 2);
   },
@@ -104,7 +106,8 @@ server.addTool({
 
 server.addTool({
   name: 'get_compliance_summary',
-  description: 'Get organization-wide compliance summary showing compliant vs non-compliant devices by platform.',
+  description:
+    'Get organization-wide compliance summary showing compliant vs non-compliant devices by platform.',
   parameters: z.object({}),
   execute: async () => {
     const result = await getComplianceSummary(kandjiClient);
@@ -114,7 +117,8 @@ server.addTool({
 
 server.addTool({
   name: 'list_blueprints',
-  description: 'List all device blueprints in the Kandji tenant. Blueprints define device configurations and policies.',
+  description:
+    'List all device blueprints in the Kandji tenant. Blueprints define device configurations and policies.',
   parameters: z.object({}),
   execute: async () => {
     const result = await listBlueprints(kandjiClient);
@@ -124,7 +128,8 @@ server.addTool({
 
 server.addTool({
   name: 'get_licensing',
-  description: 'Get Kandji tenant licensing and utilization information. Shows total licenses, used licenses, available licenses, and utilization percentage.',
+  description:
+    'Get Kandji tenant licensing and utilization information. Shows total licenses, used licenses, available licenses, and utilization percentage.',
   parameters: z.object({}),
   execute: async () => {
     const result = await getLicensing(kandjiClient);
@@ -134,9 +139,10 @@ server.addTool({
 
 server.addTool({
   name: 'execute_device_action',
-  description: 'Execute device actions (lock, restart, shutdown, erase). REQUIRES explicit confirmation (confirm=true) for all actions. Erase action is DESTRUCTIVE and will wipe the device.',
+  description:
+    'Execute device actions (lock, restart, shutdown, erase). REQUIRES explicit confirmation (confirm=true) for all actions. Erase action is DESTRUCTIVE and will wipe the device.',
   parameters: DeviceActionSchema,
-  execute: async (params) => {
+  execute: async params => {
     const result = await executeDeviceAction(kandjiClient, params);
     return JSON.stringify(result, null, 2);
   },
@@ -148,7 +154,7 @@ server.addTool({
   parameters: z.object({
     search: z.string().optional().describe('Search term to filter tags'),
   }),
-  execute: async (params) => {
+  execute: async params => {
     const result = await getTags(kandjiClient, params);
     return JSON.stringify(result, null, 2);
   },
@@ -163,7 +169,7 @@ server.addTool({
     integration_id: z.string().optional().describe('Filter by integration UUID'),
     archived: z.boolean().optional().describe('Filter by archived status'),
   }),
-  execute: async (params) => {
+  execute: async params => {
     const result = await listUsers(kandjiClient, params);
     return JSON.stringify(result, null, 2);
   },
@@ -175,7 +181,7 @@ server.addTool({
   parameters: z.object({
     user_id: z.string().describe('User UUID'),
   }),
-  execute: async (params) => {
+  execute: async params => {
     const result = await getUser(kandjiClient, params);
     return JSON.stringify(result, null, 2);
   },
@@ -187,10 +193,13 @@ server.addTool({
   parameters: z.object({
     page: z.number().optional().describe('Page number'),
     size: z.number().optional().describe('Results per page (max 50)'),
-    sort_by: z.string().optional().describe('Field to sort by (cve_id, cvss_score, device_count, etc.)'),
+    sort_by: z
+      .string()
+      .optional()
+      .describe('Field to sort by (cve_id, cvss_score, device_count, etc.)'),
     filter: z.string().optional().describe('JSON filter string'),
   }),
-  execute: async (params) => {
+  execute: async params => {
     const result = await listVulnerabilities(kandjiClient, params);
     return JSON.stringify(result, null, 2);
   },
@@ -202,7 +211,7 @@ server.addTool({
   parameters: z.object({
     cve_id: z.string().describe('CVE ID (e.g., CVE-2024-12345)'),
   }),
-  execute: async (params) => {
+  execute: async params => {
     const result = await getVulnerabilityDetails(kandjiClient, params);
     return JSON.stringify(result, null, 2);
   },
@@ -216,7 +225,7 @@ server.addTool({
     size: z.number().optional().describe('Results per page (max 300)'),
     filter: z.string().optional().describe('JSON filter string'),
   }),
-  execute: async (params) => {
+  execute: async params => {
     const result = await listVulnerabilityDetections(kandjiClient, params);
     return JSON.stringify(result, null, 2);
   },
@@ -230,7 +239,7 @@ server.addTool({
     page: z.number().optional().describe('Page number'),
     size: z.number().optional().describe('Results per page (max 50)'),
   }),
-  execute: async (params) => {
+  execute: async params => {
     const result = await listAffectedDevices(kandjiClient, params);
     return JSON.stringify(result, null, 2);
   },
@@ -244,7 +253,7 @@ server.addTool({
     page: z.number().optional().describe('Page number'),
     size: z.number().optional().describe('Results per page (max 50)'),
   }),
-  execute: async (params) => {
+  execute: async params => {
     const result = await listAffectedSoftware(kandjiClient, params);
     return JSON.stringify(result, null, 2);
   },
@@ -260,7 +269,7 @@ server.addTool({
     device_id: z.string().optional().describe('Filter by device UUID'),
     limit: z.number().optional().describe('Max results (default 1000)'),
   }),
-  execute: async (params) => {
+  execute: async params => {
     const result = await listBehavioralDetections(kandjiClient, params);
     return JSON.stringify(result, null, 2);
   },
@@ -271,11 +280,14 @@ server.addTool({
   description: 'Get detailed threat information with filtering options.',
   parameters: z.object({
     classification: z.string().optional().describe('Filter by classification (malware, pup)'),
-    status: z.string().optional().describe('Filter by status (quarantined, not_quarantined, released)'),
+    status: z
+      .string()
+      .optional()
+      .describe('Filter by status (quarantined, not_quarantined, released)'),
     device_id: z.string().optional().describe('Filter by device UUID'),
     limit: z.number().optional().describe('Max results (default 1000)'),
   }),
-  execute: async (params) => {
+  execute: async params => {
     const result = await getThreatDetails(kandjiClient, params);
     return JSON.stringify(result, null, 2);
   },
@@ -283,13 +295,14 @@ server.addTool({
 
 server.addTool({
   name: 'get_device_activity',
-  description: 'Retrieve device activity history for a specific device. Returns recent events and actions performed on the device.',
+  description:
+    'Retrieve device activity history for a specific device. Returns recent events and actions performed on the device.',
   parameters: z.object({
     device_id: z.string().uuid().describe('Device UUID'),
     limit: z.number().optional().describe('Maximum number of activity records to return (max 300)'),
     offset: z.number().optional().describe('Starting record to return for pagination'),
   }),
-  execute: async (params) => {
+  execute: async params => {
     const result = await getDeviceActivity(kandjiClient, params);
     return JSON.stringify(result, null, 2);
   },
@@ -297,11 +310,12 @@ server.addTool({
 
 server.addTool({
   name: 'get_device_apps',
-  description: 'Retrieve installed apps for a specific device. For iPhone and iPad, preinstalled Apple apps are not reported.',
+  description:
+    'Retrieve installed apps for a specific device. For iPhone and iPad, preinstalled Apple apps are not reported.',
   parameters: z.object({
     device_id: z.string().uuid().describe('Device UUID'),
   }),
-  execute: async (params) => {
+  execute: async params => {
     const result = await getDeviceApps(kandjiClient, params);
     return JSON.stringify(result, null, 2);
   },
@@ -309,11 +323,12 @@ server.addTool({
 
 server.addTool({
   name: 'get_device_library_items',
-  description: 'Retrieve library items and their statuses for a specific device. Shows configuration profiles, apps, and scripts with their installation status.',
+  description:
+    'Retrieve library items and their statuses for a specific device. Shows configuration profiles, apps, and scripts with their installation status.',
   parameters: z.object({
     device_id: z.string().uuid().describe('Device UUID'),
   }),
-  execute: async (params) => {
+  execute: async params => {
     const result = await getDeviceLibraryItems(kandjiClient, params);
     return JSON.stringify(result, null, 2);
   },
@@ -321,11 +336,12 @@ server.addTool({
 
 server.addTool({
   name: 'get_device_lost_mode_details',
-  description: 'Retrieve lost mode details for a specific iOS/iPadOS device. Lost Mode is only available for iOS and iPadOS.',
+  description:
+    'Retrieve lost mode details for a specific iOS/iPadOS device. Lost Mode is only available for iOS and iPadOS.',
   parameters: z.object({
     device_id: z.string().uuid().describe('Device UUID'),
   }),
-  execute: async (params) => {
+  execute: async params => {
     const result = await getDeviceLostModeDetails(kandjiClient, params);
     return JSON.stringify(result, null, 2);
   },
@@ -333,11 +349,12 @@ server.addTool({
 
 server.addTool({
   name: 'get_device_parameters',
-  description: 'Retrieve parameters and their statuses for a specific macOS device. This endpoint is only applicable to macOS clients. Parameter IDs can be correlated at https://github.com/kandji-inc/support/wiki/Devices-API---Parameter-Correlations',
+  description:
+    'Retrieve parameters and their statuses for a specific macOS device. This endpoint is only applicable to macOS clients. Parameter IDs can be correlated at https://github.com/kandji-inc/support/wiki/Devices-API---Parameter-Correlations',
   parameters: z.object({
     device_id: z.string().uuid().describe('Device UUID'),
   }),
-  execute: async (params) => {
+  execute: async params => {
     const result = await getDeviceParameters(kandjiClient, params);
     return JSON.stringify(result, null, 2);
   },
@@ -345,11 +362,12 @@ server.addTool({
 
 server.addTool({
   name: 'get_device_status',
-  description: 'Retrieve full status (parameters and library items) for a specific device. Provides comprehensive view of device compliance and configuration.',
+  description:
+    'Retrieve full status (parameters and library items) for a specific device. Provides comprehensive view of device compliance and configuration.',
   parameters: z.object({
     device_id: z.string().uuid().describe('Device UUID'),
   }),
-  execute: async (params) => {
+  execute: async params => {
     const result = await getDeviceStatus(kandjiClient, params);
     return JSON.stringify(result, null, 2);
   },
@@ -357,15 +375,22 @@ server.addTool({
 
 server.addTool({
   name: 'list_audit_events',
-  description: 'List audit log events from the Kandji Activity module. Returns events for blueprint changes, device lifecycle, admin actions, vulnerability management, and more.',
+  description:
+    'List audit log events from the Kandji Activity module. Returns events for blueprint changes, device lifecycle, admin actions, vulnerability management, and more.',
   parameters: z.object({
     limit: z.number().optional().describe('Maximum number of events to return (max 500)'),
-    sort_by: z.string().optional().describe('Sort results by field (e.g., -occurred_at for descending)'),
-    start_date: z.string().optional().describe('Filter by start date (YYYY-MM-DD or datetime format)'),
+    sort_by: z
+      .string()
+      .optional()
+      .describe('Sort results by field (e.g., -occurred_at for descending)'),
+    start_date: z
+      .string()
+      .optional()
+      .describe('Filter by start date (YYYY-MM-DD or datetime format)'),
     end_date: z.string().optional().describe('Filter by end date (YYYY-MM-DD or datetime format)'),
     cursor: z.string().optional().describe('Cursor for pagination'),
   }),
-  execute: async (params) => {
+  execute: async params => {
     const result = await listAuditEvents(kandjiClient, params);
     return JSON.stringify(result, null, 2);
   },
