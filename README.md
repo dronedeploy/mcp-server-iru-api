@@ -2,7 +2,9 @@
 
 > **📢 Rebranding Notice:** Kandji has rebranded as **Iru**. This MCP server continues to work with the Iru platform (formerly Kandji). All API endpoints and functionality remain unchanged. For more information about Iru, visit [iru.com](https://iru.com).
 
-AI-driven device management through Model Context Protocol. This MCP server enables natural-language interactions with the Iru (formerly Kandji) MDM API via Claude Desktop.
+AI-driven device management through Model Context Protocol. This MCP server enables natural-language interactions with the Iru (formerly Kandji) MDM API via Claude Desktop and other AI platforms.
+
+> **🚀 Multi-Platform Support:** This server is being designed to support multiple AI platforms beyond Claude Desktop, including Google Gemini CLI, Ollama, OpenAI ChatGPT, and Microsoft Copilot Studio. See [Multi-Platform Support](#multi-platform-support) and the [ROADMAP](ROADMAP.md) for implementation planning and status.
 
 ## Features
 
@@ -122,6 +124,70 @@ Quick setup:
 ```
 
 For troubleshooting and advanced options, see [config/README.md](config/README.md).
+
+## Multi-Platform Support
+
+This MCP server is designed to work with multiple AI platforms. **Claude Desktop is production-ready today.** Additional platform integrations are in planning and development phases.
+
+> **📋 Planning Phase:** Comprehensive implementation plans for Google Gemini CLI, Ollama, OpenAI ChatGPT, and Microsoft Copilot Studio are documented in the [ROADMAP](ROADMAP.md). Integration guides are being prepared to support future implementations.
+
+### Platform Comparison
+
+| Platform | Transport | Code Changes | Setup Time | Monthly Cost | Status |
+|----------|-----------|--------------|------------|--------------|--------|
+| **[Claude Desktop](config/README.md)** | stdio | None | 5 min | $20 | ✅ Production Ready |
+| **[Google Gemini CLI](docs/integrations/GEMINI_CLI.md)** | stdio | None | 30 min | $0-20 | 📝 Documented |
+| **[Ollama](docs/integrations/OLLAMA.md)** | stdio (bridge) | None | 2 hours | $0 | 📋 Planned |
+| **[OpenAI ChatGPT](docs/integrations/CHATGPT.md)** | HTTP | Extensive | 3-4 weeks | $12-65 | 📋 Planned |
+| **[Microsoft Copilot Studio](docs/integrations/COPILOT_STUDIO.md)** | HTTP | Extensive | 3-4 weeks | $320-500 | 📋 Planned |
+
+### Quick Decision Guide
+
+**Choose Claude Desktop** (current default):
+- ✅ Best overall MCP experience
+- ✅ Production-ready and stable
+- ✅ Native MCP support
+- ✅ 5-minute setup
+
+**Choose [Google Gemini CLI](docs/integrations/GEMINI_CLI.md)**:
+- ✅ Zero code changes (works with current stdio server)
+- ✅ Free tier available (1,500 requests/day)
+- ✅ Command-line interface
+- ✅ 1M token context window
+- ✅ 30-minute setup
+
+**Choose [Ollama](docs/integrations/OLLAMA.md)**:
+- ✅ 100% local and offline
+- ✅ Complete privacy (no cloud calls)
+- ✅ Zero ongoing costs
+- ✅ Works with existing stdio server
+
+**Choose [OpenAI ChatGPT](docs/integrations/CHATGPT.md)**:
+- ⚠️ Requires extensive HTTP refactoring (3-4 weeks)
+- ⚠️ Hosting costs ($12-65/month)
+- ℹ️ Consider Gemini CLI as simpler alternative
+
+**Choose [Microsoft Copilot Studio](docs/integrations/COPILOT_STUDIO.md)**:
+- ⚠️ Enterprise-only (requires M365 infrastructure)
+- ⚠️ Expensive ($320-500/month)
+- ⚠️ 3-4 weeks implementation
+- ℹ️ Only for organizations with M365 investment
+
+### Implementation Status & Planning
+
+**Current Status:**
+- ✅ **Claude Desktop** - Production ready, fully tested
+- 📝 **Google Gemini CLI** - Implementation guide prepared, ready for Phase 1
+- 📋 **Ollama** - Detailed plan prepared for Phase 2
+- 📋 **OpenAI ChatGPT** - Architecture design and requirements documented for Phase 3
+- 📋 **Microsoft Copilot Studio** - Enterprise requirements documented for Phase 4
+
+**Next Steps:**
+1. Review the **[ROADMAP](ROADMAP.md)** for detailed implementation plans
+2. Explore **[integration guides](docs/integrations/)** for planned features
+3. See [docs/integrations/GEMINI_CLI.md](docs/integrations/GEMINI_CLI.md) for the most detailed future integration example
+
+**Note:** The integration guides represent planned implementations with detailed technical specifications. Actual implementation timing will depend on community interest and contributions.
 
 ## Example Questions for IT & Security Teams
 
