@@ -35,8 +35,8 @@ AI-driven device management through Model Context Protocol. This MCP server enab
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/mangopudding/mcp-server-kandji-api.git
-cd mcp-server-kandji-api
+git clone https://github.com/mangopudding/mcp-server-iru-api.git
+cd mcp-server-iru-api
 ```
 
 2. Install dependencies:
