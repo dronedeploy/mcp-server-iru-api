@@ -91,6 +91,8 @@ export class KandjiClient {
 
     if (status === 401) {
       throw new Error(`Authentication failed: ${errorMessage}`);
+    } else if (status === 403) {
+      throw new Error(`Permission denied: ${errorMessage}`);
     } else if (status === 404) {
       throw new Error(`Resource not found: ${errorMessage}`);
     } else if (status === 429) {

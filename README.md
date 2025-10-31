@@ -65,6 +65,16 @@ KANDJI_REGION=us
 3. Click "Add API Token"
 4. Copy the generated token to your `.env` file
 
+### Verify API Access
+
+After configuring your `.env` file, verify your API token has the correct permissions:
+
+```bash
+npm run verify
+```
+
+This will test all API endpoints and report any permission issues. See [troubleshooting/README.md](troubleshooting/README.md) for details.
+
 ## Usage
 
 ### Development Mode

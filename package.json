@@ -18,6 +18,7 @@
     "test:threats": "npx tsx test/integration/test-threats.ts",
     "test:tags": "npx tsx test/integration/test-tags.ts",
     "test:licensing": "npx tsx test/integration/test-licensing.ts",
+    "verify": "npx tsx troubleshooting/verify-api-access.ts",
     "lint": "eslint src --ext .ts",
     "lint:fix": "eslint src --ext .ts --fix",
     "format": "prettier --write \"src/**/*.ts\"",
