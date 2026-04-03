@@ -407,6 +407,25 @@ describe('KandjiClient', () => {
         expect.any(Object)
       );
     });
+
+    it('should unwrap paginated { results } response', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({
+          count: 2,
+          next: null,
+          previous: null,
+          results: [
+            { id: 'a', name: 'BP1' },
+            { id: 'b', name: 'BP2' },
+          ],
+        }),
+      } as Response);
+
+      const out = await client.listBlueprints();
+      expect(out).toHaveLength(2);
+      expect(out[0].name).toBe('BP1');
+    });
   });
 
   describe('device actions', () => {

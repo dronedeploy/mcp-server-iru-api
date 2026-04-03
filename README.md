@@ -46,28 +46,26 @@ cd mcp-server-iru-api
 npm install
 ```
 
-3. Create `.env` file from example:
-```bash
-cp .env.example .env
-```
-
-4. Configure your `.env` file:
+3. **Credentials (recommended):** create `~/dev/.secrets/kandji.env` (see `dev/.secrets/README.md` in the workspace) with:
 ```env
 KANDJI_API_TOKEN=your_api_token_here
 KANDJI_SUBDOMAIN=your_subdomain_here
 KANDJI_REGION=us
 ```
+The server also loads `~/.secrets/kandji.env` if present, then an optional repo `.env` for any remaining variables.
+
+Alternatively, copy `.env.example` to `.env` in the repo for local-only use.
 
 ### Getting Your Kandji API Token
 
 1. Log in to your Kandji tenant
 2. Navigate to Settings → Access
 3. Click "Add API Token"
-4. Copy the generated token to your `.env` file
+4. Copy the generated token into `~/dev/.secrets/kandji.env` (or `.env`)
 
 ### Verify API Access
 
-After configuring your `.env` file, verify your API token has the correct permissions:
+After configuring `kandji.env` or `.env`, verify your API token has the correct permissions:
 
 ```bash
 npm run verify

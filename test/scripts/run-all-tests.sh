@@ -11,6 +11,9 @@ echo ""
 echo "Start Time: $(date)"
 echo ""
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$SCRIPT_DIR/../integration" || exit 1
+
 # Track test results
 PASSED=0
 FAILED=0

@@ -9,7 +9,7 @@ When working with large datasets that require pagination, the MCP Server can aut
 - Extracting large vulnerability reports
 - Any query that returns more data than a single API call can handle
 
-Generated scripts **do not embed your API token**. Before running a script, set `KANDJI_API_TOKEN` in your environment (same value as in the MCP server `.env`).
+Generated scripts **do not embed your API token**. Before running a script, set `KANDJI_API_TOKEN` in your environment (same value as in `~/dev/.secrets/kandji.env` or your MCP `.env`).
 
 ## How It Works
 

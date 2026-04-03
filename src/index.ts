@@ -9,8 +9,8 @@
 
 import { FastMCP } from 'fastmcp';
 import { z } from 'zod';
-import dotenv from 'dotenv';
 import { KandjiClient } from './utils/client.js';
+import { loadIruMcpEnv } from './utils/loadEnv.js';
 import { searchDevicesByCriteria } from './tools/search_devices_by_criteria.js';
 import { getDeviceDetails } from './tools/get_device_details.js';
 import { getComplianceSummary } from './tools/get_compliance_summary.js';
@@ -36,15 +36,17 @@ import { getDeviceParameters } from './tools/get_device_parameters.js';
 import { getDeviceStatus } from './tools/get_device_status.js';
 import { listAuditEvents } from './tools/list_audit_events.js';
 
-// Load environment variables
-dotenv.config();
+// Load environment variables (~/dev/.secrets/kandji.env, then ~/.secrets/kandji.env, then ./.env)
+loadIruMcpEnv();
 
 // Validate required environment variables
 const requiredEnvVars = ['KANDJI_API_TOKEN', 'KANDJI_SUBDOMAIN'];
 for (const envVar of requiredEnvVars) {
   if (!process.env[envVar]) {
     console.error(`Error: Missing required environment variable: ${envVar}`);
-    console.error('Please check your .env file and ensure all required variables are set.');
+    console.error(
+      'Set credentials in ~/dev/.secrets/kandji.env (or ~/.secrets/kandji.env), or add a repo .env. See .env.example.'
+    );
     process.exit(1);
   }
 }

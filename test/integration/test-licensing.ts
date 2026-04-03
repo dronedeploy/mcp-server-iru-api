@@ -4,19 +4,19 @@
  * Run with: npx tsx test-licensing.ts
  */
 
-import dotenv from 'dotenv';
-import { KandjiClient } from './src/utils/client.js';
-import { getLicensing } from './src/tools/get_licensing.js';
+import { KandjiClient } from '../../src/utils/client.js';
+import { getLicensing } from '../../src/tools/get_licensing.js';
+import { loadIruMcpEnv } from '../../src/utils/loadEnv.js';
 
-// Load environment variables
-dotenv.config();
+loadIruMcpEnv();
 
-// Validate required environment variables
 const requiredEnvVars = ['KANDJI_API_TOKEN', 'KANDJI_SUBDOMAIN'];
 for (const envVar of requiredEnvVars) {
   if (!process.env[envVar]) {
     console.error(`Error: Missing required environment variable: ${envVar}`);
-    console.error('Please check your .env file and ensure all required variables are set.');
+    console.error(
+      'Use ~/dev/.secrets/kandji.env (or ~/.secrets/kandji.env) or a repo .env — see .env.example.'
+    );
     process.exit(1);
   }
 }
@@ -37,7 +37,9 @@ async function testGetLicensing() {
 
   console.log(`Region: ${process.env.KANDJI_REGION || 'us'}`);
   console.log(`Subdomain: ${process.env.KANDJI_SUBDOMAIN}`);
-  console.log(`PII Redaction: ${process.env.ENABLE_PII_REDACTION === 'true' ? 'Enabled' : 'Disabled'}`);
+  console.log(
+    `PII Redaction: ${process.env.ENABLE_PII_REDACTION === 'true' ? 'Enabled' : 'Disabled'}`
+  );
   console.log();
 
   try {

@@ -4,12 +4,12 @@
  * Tests: list_behavioral_detections, get_threat_details
  */
 
-import { KandjiClient } from './src/utils/client.js';
-import { listBehavioralDetections } from './src/tools/list_behavioral_detections.js';
-import { getThreatDetails } from './src/tools/get_threat_details.js';
-import * as dotenv from 'dotenv';
+import { KandjiClient } from '../../src/utils/client.js';
+import { listBehavioralDetections } from '../../src/tools/list_behavioral_detections.js';
+import { getThreatDetails } from '../../src/tools/get_threat_details.js';
+import { loadIruMcpEnv } from '../../src/utils/loadEnv.js';
 
-dotenv.config();
+loadIruMcpEnv();
 
 async function main() {
   console.log('Testing Threat Detection Tools');
@@ -36,7 +36,7 @@ async function main() {
   console.log('-'.repeat(40));
   const openDetections = await listBehavioralDetections(client, {
     status: 'open',
-    limit: 10
+    limit: 10,
   });
   console.log(`Success: ${openDetections.success}`);
   console.log(`Summary: ${openDetections.summary}`);
@@ -47,7 +47,7 @@ async function main() {
   console.log('-'.repeat(40));
   const highSeverity = await listBehavioralDetections(client, {
     severity: 'high',
-    limit: 5
+    limit: 5,
   });
   console.log(`Success: ${highSeverity.success}`);
   console.log(`Summary: ${highSeverity.summary}`);
@@ -58,7 +58,7 @@ async function main() {
   console.log('-'.repeat(40));
   const deviceDetections = await listBehavioralDetections(client, {
     device_id: 'test-device-id',
-    limit: 10
+    limit: 10,
   });
   console.log(`Success: ${deviceDetections.success}`);
   console.log(`Summary: ${deviceDetections.summary}`);
@@ -79,7 +79,7 @@ async function main() {
   console.log('-'.repeat(40));
   const malwareThreats = await getThreatDetails(client, {
     classification: 'malware',
-    limit: 5
+    limit: 5,
   });
   console.log(`Success: ${malwareThreats.success}`);
   console.log(`Summary: ${malwareThreats.summary}`);
@@ -90,7 +90,7 @@ async function main() {
   console.log('-'.repeat(40));
   const quarantinedThreats = await getThreatDetails(client, {
     status: 'quarantined',
-    limit: 5
+    limit: 5,
   });
   console.log(`Success: ${quarantinedThreats.success}`);
   console.log(`Summary: ${quarantinedThreats.summary}`);
@@ -101,7 +101,7 @@ async function main() {
   console.log('-'.repeat(40));
   const deviceThreats = await getThreatDetails(client, {
     device_id: 'test-device-id',
-    limit: 10
+    limit: 10,
   });
   console.log(`Success: ${deviceThreats.success}`);
   console.log(`Summary: ${deviceThreats.summary}`);
@@ -113,7 +113,7 @@ async function main() {
   const combinedFilter = await getThreatDetails(client, {
     classification: 'malware',
     status: 'open',
-    limit: 5
+    limit: 5,
   });
   console.log(`Success: ${combinedFilter.success}`);
   console.log(`Summary: ${combinedFilter.summary}`);

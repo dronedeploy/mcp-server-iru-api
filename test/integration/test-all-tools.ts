@@ -4,20 +4,20 @@
  * Tests all 10 newly implemented API endpoints
  */
 
-import { KandjiClient } from './src/utils/client.js';
-import { getTags } from './src/tools/get_tags.js';
-import { listUsers } from './src/tools/list_users.js';
-import { getUser } from './src/tools/get_user.js';
-import { listVulnerabilities } from './src/tools/list_vulnerabilities.js';
-import { getVulnerabilityDetails } from './src/tools/get_vulnerability_details.js';
-import { listVulnerabilityDetections } from './src/tools/list_vulnerability_detections.js';
-import { listAffectedDevices } from './src/tools/list_affected_devices.js';
-import { listAffectedSoftware } from './src/tools/list_affected_software.js';
-import { listBehavioralDetections } from './src/tools/list_behavioral_detections.js';
-import { getThreatDetails } from './src/tools/get_threat_details.js';
-import * as dotenv from 'dotenv';
+import { KandjiClient } from '../../src/utils/client.js';
+import { getTags } from '../../src/tools/get_tags.js';
+import { listUsers } from '../../src/tools/list_users.js';
+import { getUser } from '../../src/tools/get_user.js';
+import { listVulnerabilities } from '../../src/tools/list_vulnerabilities.js';
+import { getVulnerabilityDetails } from '../../src/tools/get_vulnerability_details.js';
+import { listVulnerabilityDetections } from '../../src/tools/list_vulnerability_detections.js';
+import { listAffectedDevices } from '../../src/tools/list_affected_devices.js';
+import { listAffectedSoftware } from '../../src/tools/list_affected_software.js';
+import { listBehavioralDetections } from '../../src/tools/list_behavioral_detections.js';
+import { getThreatDetails } from '../../src/tools/get_threat_details.js';
+import { loadIruMcpEnv } from '../../src/utils/loadEnv.js';
 
-dotenv.config();
+loadIruMcpEnv();
 
 interface TestResult {
   tool: string;
@@ -29,10 +29,7 @@ interface TestResult {
 
 const results: TestResult[] = [];
 
-async function runTest(
-  toolName: string,
-  testFn: () => Promise<any>
-): Promise<void> {
+async function runTest(toolName: string, testFn: () => Promise<any>): Promise<void> {
   const startTime = Date.now();
 
   try {
@@ -143,7 +140,7 @@ async function main() {
   await runTest('list_vulnerabilities (critical)', async () => {
     return await listVulnerabilities(client, {
       severity: 'critical',
-      limit: 10
+      limit: 10,
     });
   });
 
@@ -167,7 +164,7 @@ async function main() {
   await runTest('list_vulnerability_detections (filtered)', async () => {
     return await listVulnerabilityDetections(client, {
       status: 'open',
-      limit: 10
+      limit: 10,
     });
   });
 
@@ -200,7 +197,7 @@ async function main() {
   await runTest('list_behavioral_detections (filtered)', async () => {
     return await listBehavioralDetections(client, {
       status: 'open',
-      limit: 10
+      limit: 10,
     });
   });
 
@@ -214,7 +211,7 @@ async function main() {
     return await getThreatDetails(client, {
       classification: 'malware',
       status: 'quarantined',
-      limit: 10
+      limit: 10,
     });
   });
 
@@ -229,8 +226,8 @@ async function main() {
   const avgDuration = results.reduce((sum, r) => sum + r.duration, 0) / total;
 
   console.log(`\nTotal Tests: ${total}`);
-  console.log(`Passed: ${passed} (${((passed/total)*100).toFixed(1)}%)`);
-  console.log(`Failed: ${failed} (${((failed/total)*100).toFixed(1)}%)`);
+  console.log(`Passed: ${passed} (${((passed / total) * 100).toFixed(1)}%)`);
+  console.log(`Failed: ${failed} (${((failed / total) * 100).toFixed(1)}%)`);
   console.log(`Average Duration: ${avgDuration.toFixed(0)}ms`);
 
   console.log(`\nDetailed Results:`);

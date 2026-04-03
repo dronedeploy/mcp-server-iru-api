@@ -4,12 +4,12 @@
  * Tests: list_users, get_user
  */
 
-import { KandjiClient } from './src/utils/client.js';
-import { listUsers } from './src/tools/list_users.js';
-import { getUser } from './src/tools/get_user.js';
-import * as dotenv from 'dotenv';
+import { KandjiClient } from '../../src/utils/client.js';
+import { listUsers } from '../../src/tools/list_users.js';
+import { getUser } from '../../src/tools/get_user.js';
+import { loadIruMcpEnv } from '../../src/utils/loadEnv.js';
 
-dotenv.config();
+loadIruMcpEnv();
 
 async function main() {
   console.log('Testing User Management Tools');

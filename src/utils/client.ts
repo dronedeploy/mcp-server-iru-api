@@ -249,8 +249,11 @@ export class KandjiClient {
    * List all blueprints
    */
   async listBlueprints(): Promise<KandjiBlueprint[]> {
-    const data = await this.request<KandjiBlueprint[]>('/blueprints');
-    return this.redactPII(data);
+    const data = await this.request<
+      KandjiBlueprint[] | { results?: KandjiBlueprint[]; count?: number }
+    >('/blueprints');
+    const list = Array.isArray(data) ? data : (data.results ?? []);
+    return this.redactPII(list);
   }
 
   /**

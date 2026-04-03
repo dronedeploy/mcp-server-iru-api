@@ -3,13 +3,15 @@
  * Debug URL construction and authentication
  */
 
-import dotenv from 'dotenv';
+import { loadIruMcpEnv } from '../../src/utils/loadEnv.js';
 
-dotenv.config();
+loadIruMcpEnv();
 
 console.log('Environment Variables:');
 console.log('-'.repeat(60));
-console.log(`KANDJI_API_TOKEN: ${process.env.KANDJI_API_TOKEN ? `${process.env.KANDJI_API_TOKEN.substring(0, 10)}...` : 'NOT SET'}`);
+console.log(
+  `KANDJI_API_TOKEN: ${process.env.KANDJI_API_TOKEN ? `${process.env.KANDJI_API_TOKEN.substring(0, 10)}...` : 'NOT SET'}`
+);
 console.log(`KANDJI_SUBDOMAIN: ${process.env.KANDJI_SUBDOMAIN || 'NOT SET'}`);
 console.log(`KANDJI_REGION: ${process.env.KANDJI_REGION || 'NOT SET (will default to us)'}`);
 console.log('-'.repeat(60));
@@ -19,9 +21,10 @@ console.log();
 const subdomain = process.env.KANDJI_SUBDOMAIN || 'NOT_SET';
 const region = process.env.KANDJI_REGION || 'us';
 
-const baseUrl = region === 'eu'
-  ? `https://${subdomain}.api.eu.kandji.io/api/v1`
-  : `https://${subdomain}.api.kandji.io/api/v1`;
+const baseUrl =
+  region === 'eu'
+    ? `https://${subdomain}.api.eu.kandji.io/api/v1`
+    : `https://${subdomain}.api.kandji.io/api/v1`;
 
 console.log('Constructed Base URL:');
 console.log(`  ${baseUrl}`);
@@ -48,7 +51,7 @@ if (!apiToken) {
 try {
   const response = await fetch(testUrl, {
     headers: {
-      'Authorization': `Bearer ${apiToken}`,
+      Authorization: `Bearer ${apiToken}`,
       'Content-Type': 'application/json',
     },
   });

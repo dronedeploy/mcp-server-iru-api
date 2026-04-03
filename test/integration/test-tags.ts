@@ -4,11 +4,11 @@
  * Tests: get_tags
  */
 
-import { KandjiClient } from './src/utils/client.js';
-import { getTags } from './src/tools/get_tags.js';
-import * as dotenv from 'dotenv';
+import { KandjiClient } from '../../src/utils/client.js';
+import { getTags } from '../../src/tools/get_tags.js';
+import { loadIruMcpEnv } from '../../src/utils/loadEnv.js';
 
-dotenv.config();
+loadIruMcpEnv();
 
 async function main() {
   console.log('Testing Tags Management Tool');
@@ -72,7 +72,9 @@ async function main() {
   console.log(`Success: ${emptySearch.success}`);
   console.log(`Summary: ${emptySearch.summary}`);
   console.log(`Total Tags: ${emptySearch.metadata?.totalCount}`);
-  console.log(`Same as "all tags": ${emptySearch.metadata?.totalCount === allTags.metadata?.totalCount ? 'Yes' : 'No'}\n`);
+  console.log(
+    `Same as "all tags": ${emptySearch.metadata?.totalCount === allTags.metadata?.totalCount ? 'Yes' : 'No'}\n`
+  );
 
   console.log('='.repeat(50));
   console.log('Tags Management Tests Complete');

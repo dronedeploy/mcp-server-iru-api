@@ -9,15 +9,14 @@
  *   npx tsx troubleshooting/verify-api-access.ts
  *
  * Prerequisites:
- *   - .env file configured with KANDJI_API_TOKEN and KANDJI_SUBDOMAIN
+ *   - ~/dev/.secrets/kandji.env (or repo .env) with KANDJI_API_TOKEN and KANDJI_SUBDOMAIN
  *   - Node.js 18 or higher
  */
 
-import dotenv from 'dotenv';
 import { KandjiClient } from '../src/utils/client.js';
+import { loadIruMcpEnv } from '../src/utils/loadEnv.js';
 
-// Load environment variables
-dotenv.config();
+loadIruMcpEnv();
 
 interface TestResult {
   endpoint: string;
@@ -40,7 +39,9 @@ class APIVerifier {
 
     if (!apiToken || !subdomain) {
       console.error('❌ Error: Missing required environment variables');
-      console.error('   Please ensure KANDJI_API_TOKEN and KANDJI_SUBDOMAIN are set in .env');
+      console.error(
+        '   Please ensure KANDJI_API_TOKEN and KANDJI_SUBDOMAIN are set in ~/dev/.secrets/kandji.env or .env'
+      );
       process.exit(1);
     }
 

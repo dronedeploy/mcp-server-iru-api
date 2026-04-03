@@ -3,10 +3,10 @@
  * Test basic API connectivity
  */
 
-import dotenv from 'dotenv';
-import { KandjiClient } from './src/utils/client.js';
+import { KandjiClient } from '../../src/utils/client.js';
+import { loadIruMcpEnv } from '../../src/utils/loadEnv.js';
 
-dotenv.config();
+loadIruMcpEnv();
 
 async function testConnection() {
   console.log('Testing Kandji API connection...\n');

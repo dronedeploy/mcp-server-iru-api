@@ -5,15 +5,15 @@
  *        list_affected_devices, list_affected_software
  */
 
-import { KandjiClient } from './src/utils/client.js';
-import { listVulnerabilities } from './src/tools/list_vulnerabilities.js';
-import { getVulnerabilityDetails } from './src/tools/get_vulnerability_details.js';
-import { listVulnerabilityDetections } from './src/tools/list_vulnerability_detections.js';
-import { listAffectedDevices } from './src/tools/list_affected_devices.js';
-import { listAffectedSoftware } from './src/tools/list_affected_software.js';
-import * as dotenv from 'dotenv';
+import { KandjiClient } from '../../src/utils/client.js';
+import { listVulnerabilities } from '../../src/tools/list_vulnerabilities.js';
+import { getVulnerabilityDetails } from '../../src/tools/get_vulnerability_details.js';
+import { listVulnerabilityDetections } from '../../src/tools/list_vulnerability_detections.js';
+import { listAffectedDevices } from '../../src/tools/list_affected_devices.js';
+import { listAffectedSoftware } from '../../src/tools/list_affected_software.js';
+import { loadIruMcpEnv } from '../../src/utils/loadEnv.js';
 
-dotenv.config();
+loadIruMcpEnv();
 
 async function main() {
   console.log('Testing Vulnerability Management Tools');
@@ -40,7 +40,7 @@ async function main() {
   console.log('-'.repeat(40));
   const criticalVulns = await listVulnerabilities(client, {
     severity: 'critical',
-    limit: 5
+    limit: 5,
   });
   console.log(`Success: ${criticalVulns.success}`);
   console.log(`Summary: ${criticalVulns.summary}`);
@@ -51,7 +51,7 @@ async function main() {
   console.log('-'.repeat(40));
   const exploitVulns = await listVulnerabilities(client, {
     known_exploit: true,
-    limit: 5
+    limit: 5,
   });
   console.log(`Success: ${exploitVulns.success}`);
   console.log(`Summary: ${exploitVulns.summary}`);
@@ -110,7 +110,7 @@ async function main() {
   console.log('-'.repeat(40));
   const openDetections = await listVulnerabilityDetections(client, {
     status: 'open',
-    limit: 10
+    limit: 10,
   });
   console.log(`Success: ${openDetections.success}`);
   console.log(`Summary: ${openDetections.summary}`);
