@@ -319,6 +319,27 @@ List all device blueprints with their configurations and enrollment codes.
 
 ---
 
+### get_blueprint
+
+Get a single blueprint by UUID. Response includes **library_items** when the Iru API returns them (use for export/compare vs `list_blueprints` summaries).
+
+**Parameters:**
+
+- `blueprint_id` (string, required): Blueprint UUID
+
+**Returns:** Blueprint object (name, id, library_items, etc.)
+
+**Examples:**
+
+```
+"Get blueprint details for <uuid>"
+"Show library items on blueprint <uuid>"
+```
+
+**Cache:** 30 minutes per blueprint id
+
+---
+
 ### get_tags
 
 Get configured tags with optional search filtering.

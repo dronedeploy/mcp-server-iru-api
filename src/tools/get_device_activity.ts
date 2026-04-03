@@ -92,7 +92,6 @@ export async function getDeviceActivity(
         {
           subdomain: process.env.KANDJI_SUBDOMAIN,
           region: process.env.KANDJI_REGION as 'us' | 'eu',
-          token: process.env.KANDJI_API_TOKEN,
         }
       );
     }

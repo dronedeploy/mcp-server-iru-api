@@ -9,7 +9,7 @@ AI-driven device management through Model Context Protocol. This MCP server enab
 ## Features
 
 ### Core Capabilities
-- **23 MCP Tools**: Comprehensive device, security, and compliance management
+- **24 MCP Tools**: Comprehensive device, security, and compliance management (includes `get_blueprint`)
 - **Device Management**: Search, inspect, monitor, and control devices
 - **Security Monitoring**: Vulnerability tracking, threat detection, and behavioral analysis
 - **Compliance Reporting**: Organization-wide compliance and audit logging
@@ -354,11 +354,11 @@ Ask these natural language questions in Claude Desktop to get actionable insight
 
 ### Need More Examples?
 
-See the [Complete Tool Reference](docs/TOOLS.md) for detailed parameter descriptions and additional examples for all 23 MCP tools.
+See the [Complete Tool Reference](docs/TOOLS.md) for detailed parameter descriptions and additional examples for all 24 MCP tools.
 
 ## Available MCP Tools
 
-The server provides **23 MCP tools** organized into the following categories:
+The server provides **24 MCP tools** organized into the following categories:
 
 ### Device Management (9 tools)
 
@@ -420,12 +420,17 @@ List audit log events from Kandji Activity module with filtering.
 - **Parameters**: `limit`, `sort_by`, `start_date`, `end_date`, `cursor` (all optional)
 - **Example**: "Show audit events from last week"
 
-### Configuration Management (2 tools)
+### Configuration Management (3 tools)
 
 #### list_blueprints
 List all device blueprints and their configurations.
 - **Parameters**: None
 - **Example**: "What blueprints are available?"
+
+#### get_blueprint
+Get one blueprint by UUID (includes **library_items** when the API returns them).
+- **Parameters**: `blueprint_id` (required)
+- **Example**: "Show library items for blueprint `uuid`"
 
 #### get_tags
 Get configured tags with optional search filtering.
@@ -567,15 +572,21 @@ CACHE_TTL_BLUEPRINTS=1800
 
 ### PII Redaction
 
-Enable PII redaction to mask user emails and names:
+Enable PII redaction to mask user emails, names, and **enrollment_code** on blueprint payloads:
 ```env
 ENABLE_PII_REDACTION=true
 ```
 
+### Optional hardening (DroneDeploy fork)
+
+- **`MCP_DISABLE_EXECUTE_DEVICE_ACTION=true`**: Do not register `execute_device_action` (no lock/restart/shutdown/erase via MCP).
+- **Export scripts**: Generated bash scripts use **`KANDJI_API_TOKEN` from the environment**; the token is not written into the script file.
+- **`KANDJI_SUBDOMAIN`**: Validated as a single DNS label (letters, digits, hyphens) to reduce URL surprises.
+
 ### Security Features
 
 **Destructive Operations:**
-- All destructive operations require explicit `confirm: true` parameter
+- All destructive operations require explicit `confirm: true` parameter (when `execute_device_action` is registered)
 - Device erase actions logged to stdout for accountability
 - All API operations logged by Kandji's cloud audit system
 
@@ -614,7 +625,7 @@ Contributions are welcome! Please ensure:
 
 ## Documentation
 
-- [TOOLS.md](docs/TOOLS.md) - **Complete reference for all 23 MCP tools**
+- [TOOLS.md](docs/TOOLS.md) - **Complete reference for all 24 MCP tools**
 - [QUICKSTART.md](docs/QUICKSTART.md) - Quick start guide
 - [TEST_SUITE.md](docs/TEST_SUITE.md) - Testing documentation
 - [CLAUDE.md](docs/CLAUDE.md) - Development guidelines for Claude Code

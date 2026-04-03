@@ -4,7 +4,7 @@
  */
 
 import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { KandjiClient } from '../../src/utils/client.js';
+import { KandjiClient, assertValidKandjiSubdomain } from '../../src/utils/client.js';
 
 describe('KandjiClient', () => {
   let client: KandjiClient;
@@ -37,6 +37,12 @@ describe('KandjiClient', () => {
         region: 'eu',
       });
       expect(euClient).toBeDefined();
+    });
+
+    it('should reject invalid subdomain labels', () => {
+      expect(() => assertValidKandjiSubdomain('evil..com')).toThrow('Invalid KANDJI_SUBDOMAIN');
+      expect(() => assertValidKandjiSubdomain('')).toThrow('Invalid KANDJI_SUBDOMAIN');
+      expect(() => assertValidKandjiSubdomain('-bad')).toThrow('Invalid KANDJI_SUBDOMAIN');
     });
   });
 
@@ -90,7 +96,9 @@ describe('KandjiClient', () => {
         ok: false,
         status: 500,
         statusText: 'Internal Server Error',
-        json: async () => { throw new Error('Invalid JSON'); },
+        json: async () => {
+          throw new Error('Invalid JSON');
+        },
         headers: new Headers(),
         type: 'basic',
         url: '',
@@ -195,7 +203,7 @@ describe('KandjiClient', () => {
         'https://test.api.kandji.io/api/v1/devices',
         expect.objectContaining({
           headers: expect.objectContaining({
-            'Authorization': 'Bearer test-token',
+            Authorization: 'Bearer test-token',
             'Content-Type': 'application/json',
           }),
         })

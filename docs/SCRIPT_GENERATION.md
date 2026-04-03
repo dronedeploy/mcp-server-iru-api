@@ -9,6 +9,8 @@ When working with large datasets that require pagination, the MCP Server can aut
 - Extracting large vulnerability reports
 - Any query that returns more data than a single API call can handle
 
+Generated scripts **do not embed your API token**. Before running a script, set `KANDJI_API_TOKEN` in your environment (same value as in the MCP server `.env`).
+
 ## How It Works
 
 ### Automatic Detection
@@ -75,7 +77,7 @@ Used by endpoints like:
 ### Cursor-Based Pagination
 
 Used by endpoints like:
-- `/activity/audit-log` - Audit events
+- `/audit/events` - Audit events (matches Iru API client)
 - Other paginated list endpoints
 
 **Features**:
@@ -385,6 +387,6 @@ Currently supported endpoints:
 | Endpoint | Pagination Type | Tool |
 |----------|----------------|------|
 | `/devices/{id}/activity` | Offset | `get_device_activity` |
-| `/activity/audit-log` | Cursor | `list_audit_events` |
+| `/audit/events` | Cursor | `list_audit_events` |
 
 More endpoints will be added as the feature expands.

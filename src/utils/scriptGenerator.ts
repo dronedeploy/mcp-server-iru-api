@@ -1,6 +1,8 @@
 /**
  * Bash script generator for large data exports with pagination
- * Generates ready-to-run scripts that handle pagination automatically
+ * Generates ready-to-run scripts that handle pagination automatically.
+ *
+ * API token is never embedded: scripts require KANDJI_API_TOKEN in the environment.
  */
 
 export interface ScriptConfig {
@@ -12,30 +14,46 @@ export interface ScriptConfig {
   description: string;
 }
 
-export interface KandjiConfig {
+/** Subdomain + region only; token must be supplied at script run time via KANDJI_API_TOKEN */
+export interface KandjiScriptEnvConfig {
   subdomain: string;
   region: 'us' | 'eu';
-  token: string;
+}
+
+/** Safe single-line text for bash # comments */
+export function sanitizeBashComment(text: string): string {
+  return text.replace(/[\r\n]+/g, ' ').replace(/#/g, '');
+}
+
+function scriptTokenPreamble(): string {
+  return `# API token: set before running (never paste tokens into this file)
+: "\${KANDJI_API_TOKEN:?Set KANDJI_API_TOKEN to your Iru API token before running this script.}"
+API_TOKEN="$KANDJI_API_TOKEN"
+`;
 }
 
 /**
  * Generate a bash script for paginated data export
  */
-export function generatePaginatedScript(config: ScriptConfig, kandjiConfig: KandjiConfig): string {
-  const { subdomain, region, token } = kandjiConfig;
+export function generatePaginatedScript(
+  config: ScriptConfig,
+  kandjiConfig: KandjiScriptEnvConfig
+): string {
+  const { subdomain, region } = kandjiConfig;
   const baseUrl =
     region === 'eu'
-      ? `https://${subdomain}.clients.eu.kandji.io/api/v1`
+      ? `https://${subdomain}.api.eu.kandji.io/api/v1`
       : `https://${subdomain}.api.kandji.io/api/v1`;
 
   const outputFile =
     config.outputFile || `kandji_export_${Date.now()}.${config.outputFormat || 'json'}`;
 
+  const safeDescription = sanitizeBashComment(config.description);
+
   if (config.paginationType === 'offset') {
-    return generateOffsetPaginationScript(baseUrl, config, outputFile, token);
-  } else {
-    return generateCursorPaginationScript(baseUrl, config, outputFile, token);
+    return generateOffsetPaginationScript(baseUrl, config, outputFile, safeDescription);
   }
+  return generateCursorPaginationScript(baseUrl, config, outputFile, safeDescription);
 }
 
 /**
@@ -45,7 +63,7 @@ function generateOffsetPaginationScript(
   baseUrl: string,
   config: ScriptConfig,
   outputFile: string,
-  token: string
+  safeDescription: string
 ): string {
   const params = buildQueryParams(config.params);
   const limit = config.params?.limit || 300;
@@ -54,16 +72,16 @@ function generateOffsetPaginationScript(
 set -e
 
 # Kandji API Export Script
-# Description: ${config.description}
+# Description: ${safeDescription}
 # Generated: ${new Date().toISOString()}
 # Pagination: Offset-based
 
+${scriptTokenPreamble()}
 # Configuration
 BASE_URL="${baseUrl}"
 ENDPOINT="${config.endpoint}"
 OUTPUT_FILE="${outputFile}"
 LIMIT=${limit}
-API_TOKEN="${token}"
 
 # Colors for output
 RED='\\033[0;31m'
@@ -167,7 +185,7 @@ function generateCursorPaginationScript(
   baseUrl: string,
   config: ScriptConfig,
   outputFile: string,
-  token: string
+  safeDescription: string
 ): string {
   const params = buildQueryParams(config.params);
   const limit = config.params?.limit || 500;
@@ -176,16 +194,16 @@ function generateCursorPaginationScript(
 set -e
 
 # Kandji API Export Script
-# Description: ${config.description}
+# Description: ${safeDescription}
 # Generated: ${new Date().toISOString()}
 # Pagination: Cursor-based
 
+${scriptTokenPreamble()}
 # Configuration
 BASE_URL="${baseUrl}"
 ENDPOINT="${config.endpoint}"
 OUTPUT_FILE="${outputFile}"
 LIMIT=${limit}
-API_TOKEN="${token}"
 
 # Colors for output
 RED='\\033[0;31m'

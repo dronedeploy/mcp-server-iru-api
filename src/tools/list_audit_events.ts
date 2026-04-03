@@ -100,7 +100,7 @@ export async function listAuditEvents(
 
       script = generatePaginatedScript(
         {
-          endpoint: '/activity/audit-log',
+          endpoint: '/audit/events',
           paginationType: 'cursor',
           params: { limit: limit || 500, ...scriptParams },
           outputFormat: 'json',
@@ -110,7 +110,6 @@ export async function listAuditEvents(
         {
           subdomain: process.env.KANDJI_SUBDOMAIN,
           region: process.env.KANDJI_REGION as 'us' | 'eu',
-          token: process.env.KANDJI_API_TOKEN,
         }
       );
     }

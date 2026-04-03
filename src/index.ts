@@ -15,6 +15,7 @@ import { searchDevicesByCriteria } from './tools/search_devices_by_criteria.js';
 import { getDeviceDetails } from './tools/get_device_details.js';
 import { getComplianceSummary } from './tools/get_compliance_summary.js';
 import { listBlueprints } from './tools/list_blueprints.js';
+import { getBlueprintDetails } from './tools/get_blueprint.js';
 import { executeDeviceAction } from './tools/execute_device_action.js';
 import { getLicensing } from './tools/get_licensing.js';
 import { getTags } from './tools/get_tags.js';
@@ -127,6 +128,19 @@ server.addTool({
 });
 
 server.addTool({
+  name: 'get_blueprint',
+  description:
+    'Get one blueprint by UUID, including library_items when the API returns them. Use list_blueprints for IDs.',
+  parameters: z.object({
+    blueprint_id: z.string().uuid().describe('Blueprint UUID'),
+  }),
+  execute: async params => {
+    const result = await getBlueprintDetails(kandjiClient, params);
+    return JSON.stringify(result, null, 2);
+  },
+});
+
+server.addTool({
   name: 'get_licensing',
   description:
     'Get Kandji tenant licensing and utilization information. Shows total licenses, used licenses, available licenses, and utilization percentage.',
@@ -137,16 +151,22 @@ server.addTool({
   },
 });
 
-server.addTool({
-  name: 'execute_device_action',
-  description:
-    'Execute device actions (lock, restart, shutdown, erase). REQUIRES explicit confirmation (confirm=true) for all actions. Erase action is DESTRUCTIVE and will wipe the device.',
-  parameters: DeviceActionSchema,
-  execute: async params => {
-    const result = await executeDeviceAction(kandjiClient, params);
-    return JSON.stringify(result, null, 2);
-  },
-});
+if (process.env.MCP_DISABLE_EXECUTE_DEVICE_ACTION === 'true') {
+  console.error(
+    'MCP_DISABLE_EXECUTE_DEVICE_ACTION=true: execute_device_action tool is not registered.'
+  );
+} else {
+  server.addTool({
+    name: 'execute_device_action',
+    description:
+      'Execute device actions (lock, restart, shutdown, erase). REQUIRES explicit confirmation (confirm=true) for all actions. Erase action is DESTRUCTIVE and will wipe the device.',
+    parameters: DeviceActionSchema,
+    execute: async params => {
+      const result = await executeDeviceAction(kandjiClient, params);
+      return JSON.stringify(result, null, 2);
+    },
+  });
+}
 
 server.addTool({
   name: 'get_tags',

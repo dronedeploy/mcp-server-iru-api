@@ -32,12 +32,24 @@ import {
   AuditEventListResponse,
 } from './types.js';
 
+/** Single DNS label: letters, digits, hyphens; RFC 1123-style host label */
+const SUBDOMAIN_LABEL_RE = /^[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?$/i;
+
+export function assertValidKandjiSubdomain(subdomain: string): void {
+  if (!subdomain || subdomain.length > 63 || !SUBDOMAIN_LABEL_RE.test(subdomain)) {
+    throw new Error(
+      'Invalid KANDJI_SUBDOMAIN: use a single hostname label (1–63 chars, letters, numbers, hyphens; no leading/trailing hyphen).'
+    );
+  }
+}
+
 export class KandjiClient {
   private apiToken: string;
   private baseUrl: string;
   private enablePIIRedaction: boolean;
 
   constructor(config: KandjiConfig) {
+    assertValidKandjiSubdomain(config.subdomain);
     this.apiToken = config.apiToken;
     this.enablePIIRedaction = config.enablePIIRedaction || false;
 
@@ -123,6 +135,8 @@ export class KandjiClient {
         const result: any = {};
         for (const [key, value] of Object.entries(obj)) {
           if (key === 'user_email' || key === 'email') {
+            result[key] = '[REDACTED]';
+          } else if (key === 'enrollment_code') {
             result[key] = '[REDACTED]';
           } else if (key === 'user_name' || key === 'name') {
             result[key] = '[REDACTED]';
@@ -235,14 +249,16 @@ export class KandjiClient {
    * List all blueprints
    */
   async listBlueprints(): Promise<KandjiBlueprint[]> {
-    return this.request<KandjiBlueprint[]>('/blueprints');
+    const data = await this.request<KandjiBlueprint[]>('/blueprints');
+    return this.redactPII(data);
   }
 
   /**
    * Get blueprint details by ID
    */
   async getBlueprint(blueprintId: string): Promise<KandjiBlueprint> {
-    return this.request<KandjiBlueprint>(`/blueprints/${blueprintId}`);
+    const blueprint = await this.request<KandjiBlueprint>(`/blueprints/${blueprintId}`);
+    return this.redactPII(blueprint);
   }
 
   /**

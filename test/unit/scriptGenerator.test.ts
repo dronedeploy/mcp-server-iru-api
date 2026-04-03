@@ -8,14 +8,20 @@ import {
   generatePaginatedScript,
   shouldOfferScript,
   generateScriptSuggestion,
+  sanitizeBashComment,
 } from '../../src/utils/scriptGenerator.js';
 
 describe('Script Generator', () => {
   const mockKandjiConfig = {
     subdomain: 'test',
     region: 'us' as const,
-    token: 'test-token-123',
   };
+
+  describe('sanitizeBashComment', () => {
+    it('should strip newlines and hash marks', () => {
+      expect(sanitizeBashComment('line1\nline2 # x')).toBe('line1 line2  x');
+    });
+  });
 
   describe('generatePaginatedScript', () => {
     it('should generate offset pagination script', () => {
@@ -35,6 +41,8 @@ describe('Script Generator', () => {
       expect(script).toContain('device_id=123');
       expect(script).toContain('LIMIT=300');
       expect(script).toContain('test.api.kandji.io');
+      expect(script).toContain('KANDJI_API_TOKEN');
+      expect(script).not.toContain('test-token');
     });
 
     it('should generate cursor pagination script', () => {
@@ -52,13 +60,13 @@ describe('Script Generator', () => {
       expect(script).toContain('/vulnerability-detections');
       expect(script).toContain('LIMIT=');
       expect(script).toContain('CURSOR=""');
+      expect(script).toContain('KANDJI_API_TOKEN');
     });
 
-    it('should use EU region URL when specified', () => {
+    it('should use EU region URL matching API client (api.eu.kandji.io)', () => {
       const euConfig = {
         subdomain: 'test',
         region: 'eu' as const,
-        token: 'test-token',
       };
 
       const scriptConfig = {
@@ -69,7 +77,8 @@ describe('Script Generator', () => {
 
       const script = generatePaginatedScript(scriptConfig, euConfig);
 
-      expect(script).toContain('test.clients.eu.kandji.io');
+      expect(script).toContain('test.api.eu.kandji.io');
+      expect(script).not.toContain('clients.eu.kandji.io');
     });
 
     it('should use default limit when not specified', () => {
@@ -99,7 +108,6 @@ describe('Script Generator', () => {
 
       const script = generatePaginatedScript(scriptConfig, mockKandjiConfig);
 
-      // Should include custom params
       expect(script).toContain('platform=Mac');
       expect(script).toContain('blueprint_id=123');
     });
